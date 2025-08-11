@@ -1,0 +1,16 @@
+export const routes = {
+  home: "/",
+  login: "/login",
+  dashboard: "/admin/dashboard",
+  centroFormacion: "/centroFormacion",
+  sedes: "/sedes",
+  bodegas: "/bodegas",
+  areas: "/areas",
+  ambientes: "/ambientes",
+  programas: "/programas",
+  fichas: "/fichas",
+  usuarios: "/usuarios",
+  materiales: "/materiales",
+  movimientos: "/movimientos",
+  root: "..",
+};

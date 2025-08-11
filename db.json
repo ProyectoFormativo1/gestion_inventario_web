@@ -1,0 +1,40 @@
+{
+  "sedes": [
+    {
+      "id": 1,
+      "nombre": "Sede Principal Sena Centro",
+      "centroFormacionId": 1,
+      "centroFormacionNombre": "Centro de Gestión y Desarrollo Sostenible Surcolombiano"
+    },
+    {
+      "id": 2,
+      "nombre": "Sede Yamboro",
+      "centroFormacionId": 1,
+      "centroFormacionNombre": "Centro de Gestión y Desarrollo Sostenible Surcolombiano"
+    }
+  ],
+  "centrosFormacion": [
+    {
+      "id": 1,
+      "nombre": "Centro de Gestión y Desarrollo Sostenible Surcolombiano",
+      "locacionNombre": "Pitalito"
+    },
+    {
+      "id": 2,
+      "nombre": "Centro Agroempresarial y Desarrollo Pecuario del Huila",
+      "locacionNombre": "Pitalito"
+    }
+  ],
+  "location": [
+    {
+      "id": 1,
+      "nombre": "Huila",
+      "tipo": "departamento"
+    },
+     {
+      "id": 2,
+      "nombre": "Pitalito",
+      "tipo": "ciudad"
+    }
+  ]
+}
