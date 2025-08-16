@@ -28,21 +28,22 @@ export const adminMenu: MenuItem[] = [
     icon: <DocumentTextIcon className="h-6 w-6" />,
     subItems: [
       {
-        code: "BODEGAS",
-        title: "Bodegas",
-        path: routes.bodegas,
+        code: "CIUDAD",
+        title: "Ciudad",
+        path: routes.ciudades,
         icon: <ArrowRight className="h-6 w-6" />,
       },
-      {
-        code: "SEDES",
-        title: "Sedes",
-        path: routes.sedes,
-        icon: <ArrowRight className="h-6 w-6" />,
-      },
+    
       {
         code: "CENTRO_FORMACION",
         title: "Centros de Formacion",
         path: routes.centroFormacion,
+        icon: <ArrowRight className="h-6 w-6" />,
+      },
+        {
+        code: "SEDES",
+        title: "Sedes",
+        path: routes.sedes,
         icon: <ArrowRight className="h-6 w-6" />,
       },
       {
@@ -52,15 +53,23 @@ export const adminMenu: MenuItem[] = [
         icon: <ArrowRight className="h-6 w-6" />,
       },
       {
-        code: "AMBIENTES",
-        title: "Ambientes",
-        path: routes.ambientes,
-        icon: <ArrowRight className="h-6 w-6" />,
-      },
-      {
         code: "PROGRAMAS",
         title: "Programas",
         path: routes.programas,
+        icon: <ArrowRight className="h-6 w-6" />,
+      },
+       
+      {
+        code: "BODEGAS",
+        title: "Bodegas",
+        path: routes.bodegas,
+        icon: <ArrowRight className="h-6 w-6" />,
+      },
+ 
+      {
+        code: "AMBIENTES",
+        title: "Ambientes",
+        path: routes.ambientes,
         icon: <ArrowRight className="h-6 w-6" />,
       },
       {

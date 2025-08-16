@@ -1,8 +1,9 @@
+import FichaMain from '@/components/admin/fichas/FichaMain';
 import React from 'react';
 
 const FichasPage: React.FC = () => {
   return (
-   <h1>Fichas</h1>
+   <FichaMain />
   );
 };
 

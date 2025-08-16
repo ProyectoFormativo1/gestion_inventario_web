@@ -18,6 +18,7 @@ import FichasPage from "@/pages/admin/FichasPage";
 import UsuariosPage from "@/pages/admin/UsuariosPage";
 import MaterialesPage from "@/pages/admin/MaterialesPage";
 import MovimientosPage from "@/pages/admin/MovimientosPage";
+import CiudadPage from "@/pages/admin/CiudadPage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -48,6 +49,15 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute
               component={DashboardPage}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
+        <Route
+          path={routes.ciudades}
+          element={
+            <ProtectedRoute
+              component={CiudadPage}
               isAuthenticated={isAuthenticated}
             />
           }

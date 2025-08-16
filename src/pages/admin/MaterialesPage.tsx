@@ -1,9 +1,10 @@
+import MaterialesMain from '@/components/admin/materiales/MaterialMain';
 import React from 'react';
 
 const MaterialesPage: React.FC = () => {
   return (
-   <h1>Materiales</h1>
-  );
+   < MaterialesMain/>  );
+
 };
 
 export default MaterialesPage;

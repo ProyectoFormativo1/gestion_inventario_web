@@ -1,9 +1,9 @@
+import ProgramasMain from '@/components/admin/programas/ProgramaMain';
 import React from 'react';
 
 const ProgramasPage: React.FC = () => {
   return (
-   <h1>Programas</h1>
-  );
+   < ProgramasMain/>  );
 };
 
 export default ProgramasPage;

@@ -1,6 +1,4 @@
 // useLocacion.ts
-
-
 import { findAllLocationsApi } from "@/services/location.service";
 import { Location } from "@/types/location";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";

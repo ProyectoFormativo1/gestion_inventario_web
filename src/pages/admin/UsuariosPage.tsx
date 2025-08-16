@@ -1,9 +1,10 @@
+import UsuariosMain from '@/components/admin/usuarios/UsuarioMain';
 import React from 'react';
 
 const UsuariosPage: React.FC = () => {
   return (
-   <h1>Usuarios</h1>
-  );
+   < UsuariosMain/>  );
+  
 };
 
 export default UsuariosPage;
