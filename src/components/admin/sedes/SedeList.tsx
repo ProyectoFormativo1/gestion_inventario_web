@@ -1,7 +1,7 @@
 
 import GlobalTable, { Column } from '@/components/atomic/organisms/Table';
 import { Sede } from '@/types/sede';
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import React from 'react';
 
 

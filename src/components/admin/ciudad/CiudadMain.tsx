@@ -1,4 +1,3 @@
-import { Button, Card } from "@heroui/react";
 import React, { useRef, useState } from "react";
 import CiudadList from "./CiudadList";
 import { Action } from "@/models/action";
@@ -8,6 +7,8 @@ import CiudadForm from "./CiudadForm";
 import Alert from "@/components/atomic/molecules/Alert";
 import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
+import { Card } from "@heroui/card";
+import { Button } from "@heroui/button";
 
 interface CiudadesMainProps {}
 

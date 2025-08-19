@@ -1,6 +1,6 @@
 import GlobalTable, { Column } from '@/components/atomic/organisms/Table';
 import { Ciudad } from '@/types/ciudad';
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import React from 'react';
 
 interface CiudadListProps {

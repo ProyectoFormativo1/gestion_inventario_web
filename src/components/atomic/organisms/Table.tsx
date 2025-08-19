@@ -1,8 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { ChevronUp, ChevronDown, Search } from 'lucide-react';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, Select, SelectItem, Input } from "@heroui/react";
+import {  Table,  TableHeader,  TableBody,  TableColumn,  TableRow,  TableCell} from "@heroui/table";
+import {Select, SelectItem} from "@heroui/select";
+import {Pagination} from "@heroui/pagination";
 import { format } from "date-fns";
-
+import { Input } from "@heroui/input";
 export type Column<T> = {
   key: keyof T | "acciones";
   label: string;

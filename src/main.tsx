@@ -1,22 +1,23 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import { HeroUIProvider } from "@heroui/react";
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./context/auth-context.tsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import App from "./App.tsx";
+import { Provider } from "./provider.tsx";
+import "@/styles/globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./context/auth-context.tsx";
 const queryClient = new QueryClient();
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
     <AuthProvider>
-      <HeroUIProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <Provider>
           <QueryClientProvider client={queryClient}>
             <App />
           </QueryClientProvider>
-        </BrowserRouter>
-      </HeroUIProvider>
+        </Provider>
+      </BrowserRouter>
     </AuthProvider>
-  </StrictMode>
+  </React.StrictMode>
 );

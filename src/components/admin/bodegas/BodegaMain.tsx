@@ -1,4 +1,3 @@
-import { Button, Card } from "@heroui/react";
 import React, { useRef, useState } from "react";
 import BodegaList from "./BodegaList";
 import { Action } from "@/models/action";
@@ -9,6 +8,8 @@ import Alert from "@/components/atomic/molecules/Alert";
 import Modal from "@/components/atomic/molecules/Modal";
 import { useAreas } from "@/hooks/use-area";
 import Loading from "@/components/atomic/atoms/Loading";
+import { Button } from "@heroui/button";
+import { Card } from "@heroui/card";
 
 interface BodegasMainProps {}
 

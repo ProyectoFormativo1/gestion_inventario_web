@@ -1,4 +1,3 @@
-import { Button, Card } from "@heroui/react";
 import React, { useRef, useState } from "react";
 import MaterialList from "./MaterialList";
 import { Action } from "@/models/action";
@@ -10,6 +9,8 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { useBodegas } from "@/hooks/use-bodega";
 import { useUnidadMedida } from "@/hooks/use-unidad-medida";
+import { Card } from "@heroui/card";
+import { Button } from "@heroui/button";
 
 interface MaterialesMainProps {}
 

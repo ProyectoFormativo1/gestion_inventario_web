@@ -1,4 +1,8 @@
-import { Button, Form, Input, Select, SelectItem } from "@heroui/react";
+
+import { Form } from "@heroui/form";
+import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
+import { Button } from "@heroui/button";
 import { CentroFormacion, SaveCentroFormacion } from "../../../types/centro-formacion";
 import { Action } from "@/models/action";
 import { Location } from "@/types/location";

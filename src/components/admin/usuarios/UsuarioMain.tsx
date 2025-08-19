@@ -1,4 +1,3 @@
-import { Button, Card } from "@heroui/react";
 import React, { useRef, useState } from "react";
 import UsuarioList from "./UsuarioList";
 import { Action } from "@/models/action";
@@ -10,6 +9,8 @@ import Modal from "@/components/atomic/molecules/Modal";
 import { useCargo } from "@/hooks/use-cargo";
 import { useRol } from "@/hooks/use-rol";
 import Loading from "@/components/atomic/atoms/Loading";
+import { Card } from "@heroui/card";
+import { Button } from "@heroui/button";
 
 interface UsuariosMainProps {}
 

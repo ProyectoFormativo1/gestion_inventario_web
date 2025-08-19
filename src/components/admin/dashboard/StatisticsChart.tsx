@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@heroui/react";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Statistics } from "../../../models/statistics";
 import BarChart from "../../atomic/atoms/BarChart";
 import LineChart from "../../atomic/atoms/LineChart";

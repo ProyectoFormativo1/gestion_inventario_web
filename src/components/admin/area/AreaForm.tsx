@@ -1,6 +1,9 @@
-import { Button, Form, Input, Select, SelectItem } from "@heroui/react";
 import { Area, SaveArea } from "@/types/area";
 import { Action } from "@/models/action";
+import { Form } from "@heroui/form";
+import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
+import { Button } from "@heroui/button";
 
 interface AreaFormProps {
   onSave?: (item: SaveArea) => void;

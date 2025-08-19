@@ -1,24 +1,26 @@
-import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
-} from "@heroui/react";
 import logo from "../../../assets/images/logo.png";
 import React from "react";
 import { MenuItem } from "../atoms/MenuItem";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../routes/Routes";
 import Logo from "../atoms/logo/Logo";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from "@heroui/navbar";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
+import { Avatar } from "@heroui/avatar";
 
+import { Link } from "@heroui/link";
 interface NavbarAppProps {
   leftContent?: React.ReactNode;
   centerContent?: React.ReactNode;
@@ -48,7 +50,6 @@ const NavbarApp = ({
     navigate(path);
   };
 
-
   return (
     <Navbar
       className="bg-gradient-to-r from-purple-900  to-blue-600"
@@ -62,8 +63,8 @@ const NavbarApp = ({
         />
       </NavbarContent>
       <NavbarBrand>
-        <Logo highlight={false} onClick={() => navigate(routes.home)  } />
-       {/*  <p className="font-bold text-white">{NAME_APP}</p> */}
+        <Logo highlight={false} onClick={() => navigate(routes.home)} />
+        {/*  <p className="font-bold text-white">{NAME_APP}</p> */}
       </NavbarBrand>
       {leftContent && (
         <NavbarContent className="hidden sm:flex gap-4" justify="start">
@@ -102,13 +103,13 @@ const NavbarApp = ({
           </Dropdown>
         </NavbarContent>
       )}
-       <NavbarMenu>
+      <NavbarMenu>
         {menuItems?.map((menu, index) => (
           <NavbarMenuItem key={`${menu.code}-${index}`}>
             <Link
               className="w-full"
-              color="foreground" 
-              onPress={() => handleMenuItemClick(menu.path)}
+              color="foreground"
+              onPress={() => handleMenuItemClick(menu.path ?? "")}
               size="lg"
             >
               {menu.title}

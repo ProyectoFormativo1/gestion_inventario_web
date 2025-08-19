@@ -1,6 +1,6 @@
 import GlobalTable, { Column } from '@/components/atomic/organisms/Table';
 import { Bodega } from '@/types/bodega';
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import React from 'react';
 
 interface BodegaListProps {

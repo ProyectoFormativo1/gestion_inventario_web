@@ -1,4 +1,3 @@
-import { Button, Card } from "@heroui/react";
 import React, { useRef, useState } from "react";
 import CentrosList from "./CentroFormacionList";
 import { Action } from "@/models/action";
@@ -9,6 +8,8 @@ import Alert from "@/components/atomic/molecules/Alert";
 import Modal from "@/components/atomic/molecules/Modal";
 import { useLocacion } from "@/hooks/use-locacion";
 import Loading from "@/components/atomic/atoms/Loading";
+import { Card } from "@heroui/card";
+import { Button } from "@heroui/button";
 
 interface CentrosFormacionMainProps {
 }

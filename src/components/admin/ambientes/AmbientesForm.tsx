@@ -1,7 +1,10 @@
-import { Button, Form, Input, Select, SelectItem } from "@heroui/react";
 import { Ambientes, SaveAmbientes } from "../../../types/ambientes";
 import { Action } from "@/models/action";
 import { Location } from "@/types/location";
+import { Button } from "@heroui/button";
+import { Form } from "@heroui/form";
+import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
 
 interface AmbientesFormProps {
     onSave?: (item: SaveAmbientes) => void;

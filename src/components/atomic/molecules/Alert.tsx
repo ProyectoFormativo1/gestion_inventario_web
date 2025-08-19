@@ -1,15 +1,16 @@
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    useDisclosure,
-    forwardRef,
-  } from "@heroui/react";
-  import { useImperativeHandle, useState } from "react";
-  
+
+  import { useImperativeHandle } from "react";
+  import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
+} from "@heroui/modal";
+import { forwardRef } from "@heroui/system";
+import { Button } from "@heroui/button";
+
   interface AlertProps {
     title: string;
     description?: string;
@@ -43,7 +44,7 @@ import {
         onOpenChange={onOpenChange}
       >
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
               <ModalBody>

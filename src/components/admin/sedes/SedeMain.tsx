@@ -1,4 +1,3 @@
-import { Button, Card } from "@heroui/react";
 import React, { useRef, useState } from "react";
 import SedeList from "./SedeList";
 import { Action } from "@/models/action";
@@ -9,6 +8,8 @@ import { SaveSede, Sede } from "@/types/sede";
 import SedeForm from "./SedeForm";
 import { useCentrosFormacion } from "@/hooks/use-centroformacion";
 import Loading from "@/components/atomic/atoms/Loading";
+import { Card } from "@heroui/card";
+import { Button } from "@heroui/button";
 
 interface SedeMainProps {
 }

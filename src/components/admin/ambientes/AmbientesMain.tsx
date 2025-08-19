@@ -1,4 +1,3 @@
-import { Button, Card } from "@heroui/react";
 import React, { useRef, useState } from "react";
 import { Action } from "@/models/action";
 import { Ambientes, SaveAmbientes } from "@/types/ambientes";
@@ -11,6 +10,8 @@ import Loading from "@/components/atomic/atoms/Loading";
 import { useambientes } from "../../../hooks/use-ambientes"; 
 import AmbientesForm from "./AmbientesForm";
 import AmbientesList from "./AmbientesList";
+import { Card } from "@heroui/card";
+import { Button } from "@heroui/button";
 
 interface AmbientesMainProps {}
 

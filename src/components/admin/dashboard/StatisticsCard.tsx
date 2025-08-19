@@ -1,6 +1,7 @@
-import { Button, Card, CardFooter, CardHeader } from "@heroui/react";
+import { Card, CardFooter, CardHeader } from "@heroui/card";
 import { Statistics } from "../../../models/statistics";
 import { ArrowLongUpIcon,ChartBarIcon, CurrencyDollarIcon, ShoppingCartIcon, UsersIcon } from "@heroicons/react/16/solid";
+import { Button } from "@heroui/button";
 
 interface StatisticsCardProps {
     data: Statistics;

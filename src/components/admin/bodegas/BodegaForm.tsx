@@ -1,4 +1,8 @@
-import { Button, Form, Input, Select, SelectItem } from "@heroui/react";
+
+import { Form } from "@heroui/form";
+import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
+import { Button } from "@heroui/button";
 import { Bodega, SaveBodega } from "@/types/bodega";
 import { Action } from "@/models/action";
 import { Area } from "@/types/area";

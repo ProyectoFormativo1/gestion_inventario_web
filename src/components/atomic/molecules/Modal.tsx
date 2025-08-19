@@ -1,11 +1,11 @@
 import React, { forwardRef, useImperativeHandle } from "react";
-import {
+  import {
   Modal,
-  ModalBody,
   ModalContent,
   ModalHeader,
-  useDisclosure,
-} from "@heroui/react";
+  ModalBody,
+  useDisclosure
+} from "@heroui/modal";
 
 type Size = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full";
 
@@ -26,7 +26,7 @@ const Dialog = forwardRef(({ title, content, size = "md" }: Readonly<DialogProps
   return (
     <Modal size={size} isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
-        {(close) => (
+        {() => (
           <>
             <ModalHeader className="flex flex-col gap-1">
               {title}

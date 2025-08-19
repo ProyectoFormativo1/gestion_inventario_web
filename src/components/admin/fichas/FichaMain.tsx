@@ -1,4 +1,3 @@
-import { Button, Card } from "@heroui/react";
 import React, { useRef, useState } from "react";
 import { Action } from "@/models/action";
 import { Ficha, SaveFicha } from "@/types/ficha";
@@ -8,6 +7,8 @@ import FichaList from "./FichaList";
 import Alert from "@/components/atomic/molecules/Alert";
 import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
+import { Button } from "@heroui/button";
+import { Card } from "@heroui/card";
 
 interface FichasMainProps {
   programas: { id: number; nombre: string }[];

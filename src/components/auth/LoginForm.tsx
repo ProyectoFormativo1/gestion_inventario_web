@@ -1,8 +1,12 @@
-import { Alert, Button, Card, CardBody, Form, Input } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useAuth, useLogin } from "../../hooks/use-auth";
 import { AuthLogin } from "../../models/auth";
 import { User } from "../../models/user";
+import { Card, CardBody } from "@heroui/card";
+import {Form} from "@heroui/form";
+import { Input } from "@heroui/input";
+import { Button } from "@heroui/button";
+import {Alert} from "@heroui/alert";
 
 const LoginForm = () => {
   const [action, setAction] = useState("");

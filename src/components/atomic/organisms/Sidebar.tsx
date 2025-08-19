@@ -102,8 +102,8 @@ const Sidebar = ({ menuItems }: SidebarProps) => {
                         {subItems.map((subItem) => (
                           <Link
                             key={subItem.code}
-                            to={subItem.path}
-                            onClick={() => handleClick(subItem.path)}
+                            to={subItem.path ?? ""}
+                            onClick={() => handleClick(subItem.path ?? "")}
                             className={`flex items-center gap-2 py-1 px-0 rounded-md text-sm ${
                               activePath === subItem.path
                                 ? "bg-[#0862f4]/20 text-white"

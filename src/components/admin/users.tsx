@@ -1,16 +1,9 @@
 import React, { useRef } from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Tooltip,
-} from "@heroui/react";
-import { EditIcon } from "../../atomic/atoms/icons/EditIcon";
-import { DeleteIcon } from "../../atomic/atoms/icons/DeleteIcon";
-import Alert from "../../atomic/molecules/Alert";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
+import { DeleteIcon } from "../atomic/atoms/icons/DeleteIcon";
+import { Tooltip } from "@heroui/tooltip";
+import { EditIcon } from "../atomic/atoms/icons/EditIcon";
+import Alert from "../atomic/molecules/Alert";
 
 export const columns = [
   { name: "Codigo", uid: "code" },

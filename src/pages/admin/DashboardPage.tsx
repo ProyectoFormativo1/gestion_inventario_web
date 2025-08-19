@@ -1,8 +1,8 @@
-import { Alert } from "@heroui/react";
 import { useStatistics } from "../../hooks/use-statistics";
 import StatisticsCard from "../../components/admin/dashboard/StatisticsCard";
 import CardLoading from "../../components/atomic/atoms/CardLoading";
 import StatisticsChart from "../../components/admin/dashboard/StatisticsChart";
+import { Alert } from "@heroui/alert";
 
 const DashboardPage = () => {
 
