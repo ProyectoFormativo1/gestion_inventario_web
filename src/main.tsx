@@ -3,21 +3,21 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App.tsx";
-import { Provider } from "./provider.tsx";
 import "@/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./context/auth-context.tsx";
+import { HeroUIProvider } from "@heroui/system";
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-        <Provider>
+      <HeroUIProvider>
+        <BrowserRouter>
           <QueryClientProvider client={queryClient}>
             <App />
           </QueryClientProvider>
-        </Provider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </HeroUIProvider>
     </AuthProvider>
   </React.StrictMode>
 );

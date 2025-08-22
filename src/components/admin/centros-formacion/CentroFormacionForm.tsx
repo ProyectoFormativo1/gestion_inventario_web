@@ -5,14 +5,14 @@ import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 import { CentroFormacion, SaveCentroFormacion } from "../../../types/centro-formacion";
 import { Action } from "@/models/action";
-import { Location } from "@/types/location";
+import { Locacion } from "@/types/locacion";
 
 interface CentroFormacionFormProps {
     onSave?: (item: SaveCentroFormacion) => void;
     onCancel?: () => void;
     actionType?: Action;
     initialData?: CentroFormacion;
-    cities: Location[]
+    cities: Locacion[]
 }
 
 const CentroFormacionForm = ({

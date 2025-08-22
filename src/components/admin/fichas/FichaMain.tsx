@@ -9,21 +9,37 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
+import { useCentrosFormacion } from "@/hooks/use-centroformacion";
+import { useLocacion } from "@/hooks/use-locacion";
+import { useSede } from "@/hooks/use-sede";
+import { useAreas } from "@/hooks/use-area";
+import { useambientes } from "@/hooks/use-ambientes";
+import { useProgramas } from "@/hooks/use-programa";
 
 interface FichasMainProps {
   programas: { id: number; nombre: string }[];
 }
 
-const FichasMain: React.FC<FichasMainProps> = ({ programas }) => {
+const FichasMain: React.FC<FichasMainProps> = ({}) => {
   const [action, setAction] = useState<Action>(Action.ADD);
   const [selectedFicha, setSelectedFicha] = useState<Ficha | null>(null);
   const [fichaToDelete, setFichaToDelete] = useState<Ficha | null>(null);
 
-  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
-  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
+  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
+  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
 
-  const { data, isLoading, createFicha, updateFicha, deleteFicha } = useFichas();
-
+  const { data, isLoading, createFicha, updateFicha, deleteFicha } =
+    useFichas();
+  const { data: centros } = useCentrosFormacion();
+  const { ciudades } = useLocacion();
+  const { data: programas } = useProgramas();
+  const { data: sedes } = useSede();
+  const { data: area } = useAreas();
+  const { data: ambiente } = useambientes();
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
@@ -51,7 +67,12 @@ const FichasMain: React.FC<FichasMainProps> = ({ programas }) => {
           ref={dialogFormRef}
           content={
             <FichaForm
-              programas={programas}
+              centros={centros ?? []}
+              programas={programas ?? []}
+              areas={area ?? []}
+              sedes={sedes ?? []}
+              cities={ciudades ?? []}
+              ambientes={ambiente ?? []}
               initialData={selectedFicha ?? undefined}
               onCancel={closeModal}
               actionType={action}

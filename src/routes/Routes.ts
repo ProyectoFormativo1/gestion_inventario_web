@@ -8,6 +8,8 @@ export const routes = {
   areas: "/areas",
   ambientes: "/ambientes",
   programas: "/programas",
+  cargos: "/cargos",
+  roles: "/roles",
   ciudades: "/ciudad",
   fichas: "/fichas",
   usuarios: "/usuarios",

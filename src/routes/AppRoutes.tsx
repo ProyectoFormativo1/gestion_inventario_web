@@ -19,6 +19,8 @@ import UsuariosPage from "@/pages/admin/UsuariosPage";
 import MaterialesPage from "@/pages/admin/MaterialesPage";
 import MovimientosPage from "@/pages/admin/MovimientosPage";
 import CiudadPage from "@/pages/admin/CiudadPage";
+import RolPage from "@/pages/admin/RolPage";
+import CargoPage from "@/pages/admin/CargoPage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -42,6 +44,8 @@ const AppRoutes = () => {
             </RedirectIfAuthenticated>
           }
         />
+     
+      
       </Route>
       <Route element={<AdminLayout />}>
         <Route
@@ -85,6 +89,24 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute
               component={BodegasPage}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
+        <Route
+          path={routes.roles}
+          element={
+            <ProtectedRoute
+              component={RolPage}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
+        <Route
+          path={routes.cargos}
+          element={
+            <ProtectedRoute
+              component={CargoPage}
               isAuthenticated={isAuthenticated}
             />
           }

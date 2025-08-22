@@ -1,4 +1,4 @@
-// useCentrosFormacion.ts
+// usebodega.ts
 
 import { createBodegaApi, deleteBodegaApi, findAllbodegaApi, updateBodegaApi } from "@/services/bodega.service";
 import { Bodega } from "@/types/bodega";
@@ -14,12 +14,12 @@ export function useBodegas() {
     isError,
     refetch,
   } = useQuery<Bodega[]>({
-    queryKey: ["centrosFormacion"],
+    queryKey: ["bodega"],
     queryFn: findAllbodegaApi,
     select: (data) =>
-      data.map((centro) => ({
-        ...centro,
-        key: centro.id, // agregamos la key ara el datatable
+      data.map((bodega) => ({
+        ...bodega,
+        key: bodega.id, // agregamos la key ara el datatable
       })),
   });
 
@@ -27,7 +27,7 @@ export function useBodegas() {
   const createMutation = useMutation({
     mutationFn: createBodegaApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["centrosFormacion"] });
+      queryClient.invalidateQueries({ queryKey: ["bodega"] });
     },
   });
 
@@ -35,7 +35,7 @@ export function useBodegas() {
   const updateMutation = useMutation({
     mutationFn: updateBodegaApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["centrosFormacion"] });
+      queryClient.invalidateQueries({ queryKey: ["bodega"] });
     },
   });
 
@@ -43,7 +43,7 @@ export function useBodegas() {
   const deleteMutation = useMutation({
     mutationFn: deleteBodegaApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["centrosFormacion"] });
+      queryClient.invalidateQueries({ queryKey: ["bodega"] });
     },
   });
 

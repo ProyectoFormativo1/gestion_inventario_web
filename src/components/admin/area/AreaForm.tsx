@@ -4,16 +4,28 @@ import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
+import { CentroFormacion } from "@/types/centro-formacion";
+import { Locacion } from "@/types/locacion";
 
 interface AreaFormProps {
   onSave?: (item: SaveArea) => void;
   onCancel?: () => void;
   actionType?: Action;
   initialData?: Area;
-  sedes: { id: number; nombre: string }[]; // lista de sedes disponibles
+  sedes: { id: number; nombre: string }[];
+  centros: CentroFormacion[];
+  cities: Locacion[];
 }
 
-const AreaForm = ({ onSave, onCancel, actionType, initialData, sedes }: AreaFormProps) => {
+const AreaForm = ({
+  onSave,
+  onCancel,
+  actionType,
+  initialData,
+  sedes,
+  centros,
+  cities,
+}: AreaFormProps) => {
   return (
     <Form
       className="w-full mx-auto flex flex-col gap-4"
@@ -39,16 +51,40 @@ const AreaForm = ({ onSave, onCancel, actionType, initialData, sedes }: AreaForm
         type="text"
         defaultValue={initialData?.nombre ?? ""}
       />
-
+      <Select
+        isRequired
+        labelPlacement="outside"
+        label="Ciudad"
+        name="locationId"
+        defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
+        placeholder="Seleccione una opción"
+      >
+        {cities.map((city) => (
+          <SelectItem key={city.id}>{city.nombre}</SelectItem>
+        ))}
+      </Select>
+      <Select
+        label="Centro de Formación"
+        isRequired
+        labelPlacement="outside"
+        name="centroFormacionId"
+        defaultSelectedKeys={initialData?.centroFormacionId?.toString() ?? ""}
+        placeholder="Seleccione una opción"
+      >
+        {centros.map((centro) => (
+          <SelectItem key={centro.id}>{centro.nombre}</SelectItem>
+        ))}
+      </Select>
       <Select
         isRequired
         label="Sede"
         labelPlacement="outside"
         name="sedeId"
-        defaultSelectedKeys={initialData?.sedeId ? [initialData.sedeId.toString()] : []}
-        placeholder="Seleccione una sede"
+        defaultSelectedKeys={initialData?.sedeId?.toString() ?? ""}
+        placeholder="Seleccione una opción"
+        
       >
-        {sedes.map((sede) => (
+        {sedes?.map((sede) => (
           <SelectItem key={sede.id}>{sede.nombre}</SelectItem>
         ))}
       </Select>

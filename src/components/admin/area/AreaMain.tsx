@@ -9,21 +9,27 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
+import { useCentrosFormacion } from "@/hooks/use-centroformacion";
+import { useLocacion } from "@/hooks/use-locacion";
+import { useSede } from "@/hooks/use-sede";
+interface AreasMainProps {}
 
-interface AreasMainProps {
-  sedes: { id: number; nombre: string }[]; // lista de sedes disponibles
-}
-
-const AreasMain: React.FC<AreasMainProps> = ({ sedes }) => {
+const AreasMain: React.FC<AreasMainProps> = ({}) => {
   const [action, setAction] = useState<Action>(Action.ADD);
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   const [areaToDelete, setAreaToDelete] = useState<Area | null>(null);
 
-  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
-  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
+  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
+  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
 
   const { data, isLoading, createArea, updateArea, deleteArea } = useAreas();
-
+  const { data: centros } = useCentrosFormacion();
+  const { ciudades } = useLocacion();
+  const { data: sede } = useSede();
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
@@ -51,7 +57,9 @@ const AreasMain: React.FC<AreasMainProps> = ({ sedes }) => {
           ref={dialogFormRef}
           content={
             <AreaForm
-              sedes={sedes}
+              centros={centros ?? []}
+              sedes={sede ?? []}
+              cities={ciudades ?? []}
               initialData={selectedArea ?? undefined}
               onCancel={closeModal}
               actionType={action}

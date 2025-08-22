@@ -1,9 +1,9 @@
-import { Ciudad, SaveCiudad } from "@/types/ciudad";
+import { Locacion, SaveCiudad } from "@/types/locacion";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // Obtener todas las locacion
-export const findAllCiudadesApi = async (): Promise<Ciudad[]> => {
+export const findAllLocacionesApi = async (): Promise<Locacion[]> => {
   const response = await fetch(`${BASE_URL}/locacion`, {
     method: "GET",
     headers: {
@@ -15,7 +15,7 @@ export const findAllCiudadesApi = async (): Promise<Ciudad[]> => {
 };
 
 // Crear ciudad
-export const createCiudadApi = async (request: SaveCiudad): Promise<Ciudad> => {
+export const createLocacionApi = async (request: SaveCiudad): Promise<Locacion> => {
   const response = await fetch(`${BASE_URL}/locacion`, {
     method: "POST",
     headers: {
@@ -27,9 +27,11 @@ export const createCiudadApi = async (request: SaveCiudad): Promise<Ciudad> => {
   return response.json();
 };
 
+
+
 // Actualizar ciudad
-export const updateCiudadApi = async (request: SaveCiudad): Promise<Ciudad> => {
-  if (!request.id) throw new Error("ID requerido para actualizar ciudad");
+export const updateLocacionApi = async (request: SaveCiudad): Promise<Locacion> => {
+  if (!request.id) throw new Error("ID requerido para actualizar locacion");
   const response = await fetch(`${BASE_URL}/locacion/${request.id}`, {
     method: "PUT",
     headers: {
@@ -37,17 +39,17 @@ export const updateCiudadApi = async (request: SaveCiudad): Promise<Ciudad> => {
     },
     body: JSON.stringify(request),
   });
-  if (!response.ok) throw new Error("Error al actualizar la ciudad");
+  if (!response.ok) throw new Error("Error al actualizar la locacion");
   return response.json();
 };
 
-// Eliminar ciudad
-export const deleteCiudadApi = async (id: number): Promise<void> => {
+// Eliminar locacion
+export const deleteLocacionApi = async (id: number): Promise<void> => {
   const response = await fetch(`${BASE_URL}/locacion/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
   });
-  if (!response.ok) throw new Error("Error al eliminar la ciudad");
+  if (!response.ok) throw new Error("Error al eliminar la locacion");
 };

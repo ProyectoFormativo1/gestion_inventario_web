@@ -1,16 +1,13 @@
-
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 import { Action } from "@/models/action";
-
-interface Ficha {
-  id: number;
-  codigo: string;
-  fecha_creacion: string; // YYYY-MM-DD
-  programaId: number;
-}
+import { Ficha } from "@/types/ficha";
+import { Sede } from "@/types/sede";
+import { CentroFormacion } from "@/types/centro-formacion";
+import { Locacion } from "@/types/locacion";
+import { Ambientes } from "@/types/ambientes";
 
 interface SaveFicha {
   id?: number;
@@ -25,9 +22,25 @@ interface FichaFormProps {
   actionType?: Action;
   initialData?: Ficha;
   programas: { id: number; nombre: string }[];
+  areas: { id: number; nombre: string }[];
+  sedes: Sede[];
+  centros: CentroFormacion[];
+  cities: Locacion[];
+  ambientes: Ambientes[];
 }
 
-const FichaForm = ({ onSave, onCancel, actionType, initialData, programas }: FichaFormProps) => {
+const FichaForm = ({
+  onSave,
+  onCancel,
+  actionType,
+  initialData,
+  programas,
+  areas,
+  sedes,
+  centros,
+  cities,
+  ambientes,
+}: FichaFormProps) => {
   return (
     <Form
       className="w-full mx-auto flex flex-col gap-4"
@@ -66,14 +79,83 @@ const FichaForm = ({ onSave, onCancel, actionType, initialData, programas }: Fic
 
       <Select
         isRequired
+        labelPlacement="outside"
+        label="Ciudad"
+        name="locationId"
+        defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
+        placeholder="Seleccione una opción"
+      >
+        {cities.map((city) => (
+          <SelectItem key={city.id}>{city.nombre}</SelectItem>
+        ))}
+      </Select>
+      <Select
+        label="Centro de Formación"
+        isRequired
+        labelPlacement="outside"
+        name="centroFormacionId"
+        defaultSelectedKeys={initialData?.centroFormacionId?.toString() ?? ""}
+        placeholder="Seleccione una opción"
+      >
+        {centros.map((centro) => (
+          <SelectItem key={centro.id}>{centro.nombre}</SelectItem>
+        ))}
+      </Select>
+      <Select
+        isRequired
+        label="Sede"
+        labelPlacement="outside"
+        name="sedeId"
+        defaultSelectedKeys={
+          initialData?.sedeId ? [initialData.sedeId.toString()] : []
+        }
+        placeholder="Seleccione una sede"
+      >
+        {sedes?.map((sede) => (
+          <SelectItem key={sede.id}>{sede.nombre}</SelectItem>
+        ))}
+      </Select>
+
+      <Select
+        isRequired
+        label="Área"
+        labelPlacement="outside"
+        name="areaId"
+        defaultSelectedKeys={
+          initialData?.areaId ? [initialData.areaId.toString()] : []
+        }
+        placeholder="Seleccione un área"
+      >
+        {areas.map((area) => (
+          <SelectItem key={area.id}>{area.nombre}</SelectItem>
+        ))}
+      </Select>
+      <Select
+        isRequired
         label="Programa"
         labelPlacement="outside"
         name="programaId"
-        defaultSelectedKeys={initialData?.programaId ? [initialData.programaId.toString()] : []}
+        defaultSelectedKeys={
+          initialData?.programaId ? [initialData.programaId.toString()] : []
+        }
         placeholder="Seleccione un programa"
       >
-        {programas.map((p) => (
-          <SelectItem key={p.id}>{p.nombre}</SelectItem>
+        {programas.map((programa) => (
+          <SelectItem key={programa.id}>{programa.nombre}</SelectItem>
+        ))}
+      </Select>
+      <Select
+        isRequired
+        label="Ambiente"
+        labelPlacement="outside"
+        name="ambienteId"
+        defaultSelectedKeys={
+          initialData?.ambienteId ? [initialData.ambienteId.toString()] : []
+        }
+        placeholder="Seleccione un ambiente"
+      >
+        {ambientes.map((ambiente) => (
+          <SelectItem key={ambiente.id}>{ambiente.nombre}</SelectItem>
         ))}
       </Select>
 

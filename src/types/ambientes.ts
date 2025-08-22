@@ -6,6 +6,17 @@ export type Ambientes = {
     nombre: string;
     fichaId: number;
     fichaNombre: string;
+    areaId: number;
+    areaNombre?: string; 
+    sedeId: number;
+    sedeNombre?: string; 
+    centroFormacionNombre: string;
+    centroFormacionId: number;
+    locacionId: number;
+    locacionNombre: string;
+    programaId: number;
+    programaNombre: string;
+  
 } & Base;
 
 // Modelo para Crear y Editar Centro de Formacion

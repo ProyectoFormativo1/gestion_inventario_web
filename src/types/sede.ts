@@ -6,6 +6,8 @@ export type Sede = {
     nombre: string;
     centroFormacionNombre: string;
     centroFormacionId: number;
+    locacionId: number;
+    locacionNombre: string;
 } & Base;
 
 // Modelo para Crear y Editar Sede

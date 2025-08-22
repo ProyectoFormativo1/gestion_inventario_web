@@ -6,6 +6,9 @@ import { Button } from "@heroui/button";
 import { Bodega, SaveBodega } from "@/types/bodega";
 import { Action } from "@/models/action";
 import { Area } from "@/types/area";
+import { CentroFormacion } from "@/types/centro-formacion";
+import { Locacion } from "@/types/locacion";
+import { Sede } from "@/types/sede";
 
 interface BodegaFormProps {
   onSave?: (item: SaveBodega) => void;
@@ -13,6 +16,9 @@ interface BodegaFormProps {
   actionType?: Action;
   initialData?: Bodega;
   areas: Area[];
+  cities: Locacion[];
+  sedes: Sede[];
+  centros: CentroFormacion[];
 }
 
 const BodegaForm = ({
@@ -20,7 +26,10 @@ const BodegaForm = ({
   onCancel,
   actionType,
   initialData,
-  areas
+  areas,
+  sedes,
+  centros,
+  cities
 }: BodegaFormProps) => {
   return (
     <Form
@@ -47,6 +56,44 @@ const BodegaForm = ({
         type="text"
         defaultValue={initialData?.nombre ?? ""}
       />
+      <Select
+        isRequired
+        labelPlacement="outside"
+        label="Ciudad"
+        name="locationId"
+        defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
+        placeholder="Seleccione una opción"
+      >
+        {cities.map((city) => (
+          <SelectItem key={city.id}>{city.nombre}</SelectItem>
+        ))}
+      </Select>
+      <Select
+        label="Centro de Formación"
+        isRequired
+        labelPlacement="outside"
+        name="centroFormacionId"
+        defaultSelectedKeys={initialData?.centroFormacionId?.toString() ?? ""}
+        placeholder="Seleccione una opción"
+      >
+        {centros.map((centro) => (
+          <SelectItem key={centro.id}>{centro.nombre}</SelectItem>
+        ))}
+      </Select>
+      <Select
+        isRequired
+        label="Sede"
+        labelPlacement="outside"
+        name="sedeId"
+        defaultSelectedKeys={
+          initialData?.sedeId ? [initialData.sedeId.toString()] : []
+        }
+        placeholder="Seleccione una sede"
+      >
+        {sedes?.map((sede) => (
+          <SelectItem key={sede.id}>{sede.nombre}</SelectItem>
+        ))}
+      </Select>
 
       <Select
         isRequired

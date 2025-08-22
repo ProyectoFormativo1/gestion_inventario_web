@@ -1,21 +1,20 @@
 import GlobalTable, { Column } from '@/components/atomic/organisms/Table';
-import { Ciudad } from '@/types/ciudad';
+import { Locacion } from '@/types/locacion';
 import { Button } from '@heroui/button';
 import React from 'react';
 
 interface CiudadListProps {
-  onEdit?: (item: Ciudad) => void;
-  onDelete?: (item: Ciudad) => void;
-  items: Ciudad[];
+  onEdit?: (item: Locacion) => void;
+  onDelete?: (item: Locacion) => void;
+  items: Locacion[];
 }
 
 const CiudadList: React.FC<CiudadListProps> = ({ onEdit, onDelete, items }) => {
-  const columns: Column<Ciudad>[] = [
+  const columns: Column<Locacion>[] = [
     { key: 'id', label: 'ID', sortable: true, filterable: true },
     { key: 'nombre', label: 'Nombre', sortable: true, filterable: true },
-    { key: 'tipo', label: 'Tipo', sortable: true, filterable: true },
     { key: 'codigoPostal', label: 'Código Postal', sortable: true, filterable: true },
-    { key: 'parentNombre', label: 'Municipio', sortable: true, filterable: true },
+    { key: 'parentNombre', label: 'Departamento', sortable: true, filterable: true },
     {
       key: 'acciones',
       label: 'Acciones',

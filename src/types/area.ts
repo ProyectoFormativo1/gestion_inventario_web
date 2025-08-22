@@ -5,7 +5,11 @@ export type Area = {
   id: number;
   nombre: string;
   sedeId: number;
-  sedeNombre?: string; // opcional para mostrar en listas
+  sedeNombre?: string; 
+  centroFormacionNombre: string;
+  centroFormacionId: number;
+  locacionId: number;
+  locacionNombre: string;
 } & Base;
 
 // Modelo para crear/editar Area

@@ -1,40 +1,65 @@
 {
   "sedes": [
     {
-      "id": 1,
+      "id": "1",
       "nombre": "Sede Principal Sena Centro",
       "centroFormacionId": 1,
       "centroFormacionNombre": "Centro de Gestión y Desarrollo Sostenible Surcolombiano"
     },
     {
-      "id": 2,
+      "id": "2",
       "nombre": "Sede Yamboro",
       "centroFormacionId": 1,
       "centroFormacionNombre": "Centro de Gestión y Desarrollo Sostenible Surcolombiano"
+    },
+    {
+      "id": "fd3d",
+      "nombre": "asdasd",
+      "centroFormacionId": "1"
+    },
+    {
+      "id": "578e",
+      "nombre": "Yamboro",
+      "centroFormacionId": "1"
+    },
+    {
+      "id": "66db",
+      "nombre": "ww",
+      "centroFormacionId": "5ef9"
     }
   ],
   "centrosFormacion": [
     {
-      "id": 1,
+      "id": "1",
       "nombre": "Centro de Gestión y Desarrollo Sostenible Surcolombiano",
       "locacionNombre": "Pitalito"
     },
     {
-      "id": 2,
+      "id": "2",
       "nombre": "Centro Agroempresarial y Desarrollo Pecuario del Huila",
       "locacionNombre": "Pitalito"
+    },
+    {
+      "id": "5ef9",
+      "nombre": "asdasd"
     }
   ],
-  "location": [
+  "locacion": [
     {
-      "id": 1,
+      "id": "1",
       "nombre": "Huila",
-      "tipo": "departamento"
+      "tipo": "departamento",
+      "codigoPostal": "410001",
+      "parentId": null,
+      "parentNombre": null
     },
-     {
-      "id": 2,
+    {
+      "id": "2",
       "nombre": "Pitalito",
-      "tipo": "ciudad"
+      "tipo": "ciudad",
+      "codigoPostal": "413001",
+      "parentId": 1,
+      "parentNombre": "Huila"
     }
   ]
 }

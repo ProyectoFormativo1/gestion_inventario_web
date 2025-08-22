@@ -123,13 +123,7 @@ const Sidebar = ({ menuItems }: SidebarProps) => {
           ))}
         </nav>
       </div>
-
-      <hr className="mt-40 border-t border-white/10 mx-2" />
-      <div className="p-4">
-        <button className="w-full flex items-center gap-2 text-white text-sm hover:bg-[#1e293b] px-3 py-2 rounded-md">
-          ↩️ {isOpen && "Cerrar sesión"}
-        </button>
-      </div>
+      
     </div>
   );
 };

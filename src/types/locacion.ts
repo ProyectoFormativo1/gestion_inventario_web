@@ -1,7 +1,7 @@
 import { Base } from "./base";
 
-// Modelo de Ciudad (lectura)
-export type Ciudad = {
+// Modelo de Locacion (lectura)
+export type Locacion = {
   id: number;
   nombre: string;
   tipo: string;
@@ -9,6 +9,9 @@ export type Ciudad = {
   parentId: number | null;
   parentNombre?: string; // opcional si quieres mostrar el nombre del padre
 } & Base;
+
+
+
 
 // Modelo para Crear y Editar Ciudad
 export type SaveCiudad = {

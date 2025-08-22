@@ -5,6 +5,7 @@ import { Button } from "@heroui/button";
 import { Action } from "@/models/action";
 import { SaveSede, Sede } from "@/types/sede";
 import { CentroFormacion } from "@/types/centro-formacion";
+import { Locacion } from "@/types/locacion";
 
 interface SedeFormProps {
     onSave?: (item: SaveSede) => void;
@@ -12,6 +13,7 @@ interface SedeFormProps {
     actionType?: Action;
     initialData?: Sede;
     centros: CentroFormacion[]
+    cities: Locacion[]
 }
 
 const CentroFormacionForm = ({
@@ -19,7 +21,9 @@ const CentroFormacionForm = ({
     onCancel,
     actionType,
     initialData,
-    centros
+    centros,
+    cities
+
 }: SedeFormProps) => {
     return (
         <Form
@@ -46,6 +50,21 @@ const CentroFormacionForm = ({
                 type="text"
                 defaultValue={initialData?.nombre ?? ""}
             />
+            <Select
+                isRequired
+                labelPlacement="outside"
+                label="Ciudad"
+                name="locationId"
+                defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
+                placeholder="Seleccione una opción"
+            >
+                {cities.map((city) => (
+                    <SelectItem key={city.id}>
+                        {city.nombre}
+                    </SelectItem>
+                ))}
+            </Select>
+
             <Select
                 label="Centro de Formación"
                 isRequired

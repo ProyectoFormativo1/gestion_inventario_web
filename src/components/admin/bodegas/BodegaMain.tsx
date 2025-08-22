@@ -10,6 +10,9 @@ import { useAreas } from "@/hooks/use-area";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
+import { useCentrosFormacion } from "@/hooks/use-centroformacion";
+import { useLocacion } from "@/hooks/use-locacion";
+import { useSede } from "@/hooks/use-sede";
 
 interface BodegasMainProps {}
 
@@ -32,7 +35,9 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
 
   // Hook para traer las áreas disponibles
   const { data: areas, isLoading: areasLoading } = useAreas();
-
+  const { data: centros } = useCentrosFormacion();
+  const { ciudades } = useLocacion();
+  const { data: sedes } = useSede()
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
@@ -60,7 +65,10 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
           ref={dialogFormRef}
           content={
             <BodegaForm
-              areas={areas ?? []} // pasamos áreas para el select
+              areas={areas ?? []} 
+              centros={centros ?? []}      
+              cities={ciudades ?? []} 
+              sedes={sedes ?? []} 
               initialData={selectedBodega ?? undefined}
               onCancel={closeModal}
               onSave={(item: SaveBodega) => {

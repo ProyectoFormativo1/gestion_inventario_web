@@ -2,15 +2,15 @@ import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
-import { Ciudad, SaveCiudad } from "@/types/ciudad";
+import { Locacion, SaveCiudad } from "@/types/locacion";
 import { Action } from "@/models/action";
 
 interface CiudadFormProps {
   onSave?: (item: SaveCiudad) => void;
   onCancel?: () => void;
   actionType?: Action;
-  initialData?: Ciudad;
-  parentCities: Ciudad[]; // Lista de ciudades padre disponibles
+  initialData?: Locacion;
+  departamentos: Locacion[]; // Lista de ciudades padre disponibles
 }
 
 const CiudadForm = ({
@@ -18,7 +18,7 @@ const CiudadForm = ({
   onCancel,
   actionType,
   initialData,
-  parentCities
+  departamentos
 }: CiudadFormProps) => {
   return (
     <Form
@@ -31,7 +31,7 @@ const CiudadForm = ({
           onSave({
             id: initialData?.id,
             nombre: data.nombre as string,
-            tipo: data.tipo as string,
+            tipo: "ciudad",
             codigoPostal: data.codigoPostal as string,
             parentId: data.parentId ? Number(data.parentId) : null
           });
@@ -50,35 +50,25 @@ const CiudadForm = ({
 
       <Input
         isRequired
-        label="Tipo"
-        labelPlacement="outside"
-        name="tipo"
-        placeholder="Ej: Municipio, Departamento"
-        type="text"
-        defaultValue={initialData?.tipo ?? ""}
-      />
-
-      <Input
-        isRequired
         label="Código Postal"
         labelPlacement="outside"
         name="codigoPostal"
         placeholder="Ingrese el código postal"
-        type="text"
+        type="number"
         defaultValue={initialData?.codigoPostal ?? ""}
       />
 
       <Select
         labelPlacement="outside"
-        label="Ciudad Padre"
+        label="Departamento"
         name="parentId"
         defaultSelectedKeys={
           initialData?.parentId ? [initialData.parentId.toString()] : []
         }
         placeholder="Seleccione una opción"
       >
-        {parentCities.map((city) => (
-          <SelectItem key={city.id}>{city.nombre}</SelectItem>
+        {departamentos.map((Departamento) => (
+          <SelectItem key={Departamento.id}>{Departamento.nombre}</SelectItem>
         ))}
       </Select>
 

@@ -80,6 +80,7 @@ export const adminMenu: MenuItem[] = [
       },
     ],
   },
+  
   {
     code: "USUARIOS",
     title: "Usuarios",
@@ -103,5 +104,27 @@ export const adminMenu: MenuItem[] = [
     title: "Movimientos",
     path: routes.movimientos,
     icon: <TrendingUpDown className="h-6 w-6" />,
-  }
+  },
+  {
+    code: "PERMISOS",
+    title: "Permisos",
+    icon: <DocumentTextIcon className="h-6 w-6" />,
+    subItems: [
+      {
+        code: "ROLES",
+        title: "Roles",
+        path: routes.roles,
+        icon: <ArrowRight className="h-6 w-6" />,
+      },
+    
+      {
+        code: "CARGOS",
+        title: "Cargos",
+        path: routes.cargos,
+        icon: <ArrowRight className="h-6 w-6" />,
+      },
+       
+    ],
+  },
 ];
+

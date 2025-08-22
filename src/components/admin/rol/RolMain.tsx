@@ -1,45 +1,38 @@
 import React, { useRef, useState } from "react";
-import CiudadList from "./CiudadList";
+import RolList from "./RolList";
 import { Action } from "@/models/action";
-import { Locacion, SaveCiudad } from "@/types/locacion";
-import { useLocacion } from "@/hooks/use-locacion";
-import CiudadForm from "./CiudadForm";
+import { Rol, SaveRol } from "@/types/rol";
+import { useRol } from "@/hooks/use-rol";
+import RolForm from "./RolForm";
 import Alert from "@/components/atomic/molecules/Alert";
 import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 
-interface CiudadesMainProps {}
+interface RolMainProps {}
 
-const CiudadesMain: React.FC<CiudadesMainProps> = () => {
+const RolMain: React.FC<RolMainProps> = () => {
   const [action, setAction] = useState<Action>(Action.ADD);
-  const [selectedCiudad, setSelectedCiudad] = useState<Locacion | null>(null);
-  const [ciudadToDelete, setCiudadToDelete] = useState<Locacion | null>(null);
+  const [selectedRol, setSelectedRol] = useState<Rol | null>(null);
+  const [rolToDelete, setRolToDelete] = useState<Rol | null>(null);
 
   const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
   const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
 
-  const {
-    ciudades,
-    departamentos,
-    isLoading,
-    createCiudad,
-    updateCiudad,
-    deleteCiudad,
-  } = useLocacion();
+  const { data: roles, isLoading, createRol, updateRol, deleteRol } = useRol();
 
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
-    setSelectedCiudad(null);
+    setSelectedRol(null);
   };
-
+3
   return (
     <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
-          <h2 className="text-lg font-medium text-gray-800">Ciudades</h2>
+          <h2 className="text-lg font-medium text-gray-800">Roles</h2>
           <Button
             onPress={() => {
               setAction(Action.ADD);
@@ -48,38 +41,37 @@ const CiudadesMain: React.FC<CiudadesMainProps> = () => {
             color="primary"
             className="w-40"
           >
-            Agregar Nueva
+            Agregar Nuevo
           </Button>
         </div>
 
         <Modal
           ref={dialogFormRef}
           content={
-            <CiudadForm
-              departamentos={departamentos ?? []}
-              initialData={selectedCiudad ?? undefined}
+            <RolForm
+              initialData={selectedRol ?? undefined}
               onCancel={closeModal}
               actionType={action}
-              onSave={(item: SaveCiudad) => {
-                action === Action.EDIT ? updateCiudad(item) : createCiudad(item);
+              onSave={(item: SaveRol) => {
+                action === Action.EDIT ? updateRol(item) : createRol(item);
                 closeModal();
               }}
             />
           }
-          title={action === Action.ADD ? "Agregar Ciudad" : "Editar Ciudad"}
+          title={action === Action.ADD ? "Agregar Rol" : "Editar Rol"}
         />
 
         {isLoading && <Loading />}
 
-        <CiudadList
-          items={ciudades ?? []}
+        <RolList
+          items={roles ?? []}
           onEdit={(item) => {
             setAction(Action.EDIT);
-            setSelectedCiudad(item);
+            setSelectedRol(item);
             openModal();
           }}
           onDelete={(item) => {
-            setCiudadToDelete(item);
+            setRolToDelete(item);
             alertDeleteRef.current?.onOpen();
           }}
         />
@@ -88,17 +80,17 @@ const CiudadesMain: React.FC<CiudadesMainProps> = () => {
         <Alert
           ref={alertDeleteRef}
           onCloseCallback={(confirmed: boolean) => {
-            if (confirmed && ciudadToDelete) {
-              deleteCiudad(ciudadToDelete.id);
-              setCiudadToDelete(null);
+            if (confirmed && rolToDelete) {
+              deleteRol(rolToDelete.id);
+              setRolToDelete(null);
             }
           }}
           title="Confirmar Eliminación"
-          description="¿Está seguro de que desea eliminar esta ciudad?"
+          description="¿Está seguro de que desea eliminar este rol?"
         />
       </Card>
     </div>
   );
 };
 
-export default CiudadesMain;
+export default RolMain;
