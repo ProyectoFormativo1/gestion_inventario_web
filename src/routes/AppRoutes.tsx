@@ -21,6 +21,7 @@ import MovimientosPage from "@/pages/admin/MovimientosPage";
 import CiudadPage from "@/pages/admin/CiudadPage";
 import RolPage from "@/pages/admin/RolPage";
 import CargoPage from "@/pages/admin/CargoPage";
+import EstadisticasPage from "@/pages/admin/EstadisticasPage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -45,7 +46,6 @@ const AppRoutes = () => {
           }
         />
      
-      
       </Route>
       <Route element={<AdminLayout />}>
         <Route
@@ -53,6 +53,15 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute
               component={DashboardPage}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
+        <Route
+          path={routes.estadisticas}
+          element={
+            <ProtectedRoute
+              component={EstadisticasPage}
               isAuthenticated={isAuthenticated}
             />
           }

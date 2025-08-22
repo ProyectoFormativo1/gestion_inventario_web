@@ -96,7 +96,7 @@ export const adminMenu: MenuItem[] = [
   {
     code: "ESTADISTICAS",
     title: "Estadisticas",
-    path: routes.dashboard,
+    path: routes.estadisticas,
     icon: <ChartLine className="h-6 w-6" />,
   },
   {
