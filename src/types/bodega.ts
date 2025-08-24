@@ -6,12 +6,14 @@ export type Bodega = {
   descripcion: string;
   areaId: number;
   areaNombre: string;
+  responsable: string;
   sedeId: number;
   sedeNombre?: string;
   centroFormacionNombre: string;
   centroFormacionId: number;
   locacionId: number;
   locacionNombre: string;
+  totalMateriales: number;
 } & Base;
 
 // Modelo para Crear y Editar Centro de Formacion
@@ -20,4 +22,5 @@ export type SaveBodega = {
   nombre: string;
   areaId: number;
   descripcion: string;
+  responsable: string;
 };

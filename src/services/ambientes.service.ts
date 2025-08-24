@@ -5,6 +5,10 @@ export const findAllambientesApi = async (): Promise<Ambientes[]> => {
   return apiClient("/ambientes", { method: "GET" });
 };
 
+export const findAllambientesByAreaApi = async (areaId: number): Promise<Ambientes[]> => {
+  return apiClient(`/ambientes/area/${areaId}`, { method: "GET" });
+};
+
 export const createAmbientesApi = async (request: SaveAmbientes): Promise<Ambientes> => {
   return apiClient("/ambientes", {
     method: "POST",

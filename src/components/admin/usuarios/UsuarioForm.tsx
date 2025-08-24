@@ -43,7 +43,7 @@ const UsuarioForm = ({
           });
         }
       }}
-    >
+        >
       <Input
         isRequired
         label="Nombres"
@@ -72,20 +72,22 @@ const UsuarioForm = ({
         name="contrasena"
         placeholder="Ingrese contraseña"
         type="password"
-        defaultValue={initialData?.contrasena ?? ""}
       />
-      <Input
-        isRequired
-        label="Fecha de creación"
-        name="fecha_creacion"
-        type="date"
-        // 👇 El input date espera string "YYYY-MM-DD"
-        defaultValue={
-          initialData?.fecha_creacion
-            ? new Date(initialData.fecha_creacion).toISOString().split("T")[0]
-            : ""
-        }
-      />
+      {actionType === Action.EDIT && (
+        <Input
+          isRequired
+          label="Fecha de creación"
+          disabled
+          name="fecha_creacion"
+          type="date"
+          // 👇 El input date espera string "YYYY-MM-DD"
+          defaultValue={
+        initialData?.fechaCreacion
+          ? new Date(initialData.fechaCreacion).toISOString().split("T")[0]
+          : ""
+          }
+        />
+      )}
 
       <Select
         isRequired

@@ -50,6 +50,7 @@ const BodegaForm = ({
             nombre: data.nombre as string,
             descripcion: data.descripcion as string,
             areaId: Number(data.areaId),
+            responsable: data.responsable as string
           });
         }
       }}
@@ -71,6 +72,15 @@ const BodegaForm = ({
         placeholder="Ingrese la descripción"
         type="text"
         defaultValue={initialData?.descripcion ?? ""}
+      />
+        <Input
+        isRequired
+        label="Nombre del responsable"
+        labelPlacement="outside"
+        name="responsable"
+        placeholder="Ingrese el nombre del responsable"
+        type="text"
+        defaultValue={initialData?.responsable ?? ""}
       />
       <Select
         isRequired

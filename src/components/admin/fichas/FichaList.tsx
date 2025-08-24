@@ -13,8 +13,10 @@ const FichaList: React.FC<FichaListProps> = ({ onEdit, onDelete, items }) => {
   const columns: Column<Ficha>[] = [
     { key: "id", label: "ID", sortable: true, filterable: true },
     { key: "codigo", label: "Código", sortable: true, filterable: true },
-    { key: "fecha_creacion", label: "Fecha de Creación", sortable: true, filterable: true },
+    { key: "fechaCreacion", label: "Fecha de Creación", sortable: true, filterable: true },
     { key: "programaNombre", label: "Programa", sortable: true, filterable: true },
+    { key: "ambienteNombre", label: "Ambiente", sortable: true, filterable: true },
+
     {
       key: "acciones",
       label: "Acciones",

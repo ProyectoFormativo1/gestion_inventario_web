@@ -13,17 +13,19 @@ const MaterialList: React.FC<MaterialListProps> = ({ items, onEdit, onDelete }) 
   const columns: Column<Material>[] = [
     { key: 'id', label: 'ID', sortable: true, filterable: true },
     { key: 'nombre', label: 'Nombre', sortable: true, filterable: true },
-    { key: 'stok', label: 'Stock', sortable: true, filterable: true },
+    {
+      key: 'stok', label: 'Stock', sortable: true, filterable: true, render: (item) => {
+        return <span>{item.stok} {item.unidadMedidaNombre}</span>;
+      } },
     { key: 'numero_contrato', label: 'N° Contrato', sortable: true, filterable: true },
-    { key: 'codigo_sena', label: 'Código SENA', sortable: true, filterable: true },
-    { key: 'codigo_unspsc', label: 'Código UNSPSC', sortable: true, filterable: true },
+    { key: 'codigo_sena', label: 'C. SENA', sortable: true, filterable: true },
+    { key: 'codigo_unspsc', label: 'C. UNSPSC', sortable: true, filterable: true },
     { key: 'tipo', label: 'Tipo', sortable: true, filterable: true },
     { key: 'bodegaNombre', label: 'Bodega', sortable: true, filterable: true },
-    { key: 'unidadMedidaNombre', label: 'Unidad Medida', sortable: true, filterable: true },
-    { key: 'fecha_creacion', label: 'Fecha creación', sortable: true, filterable: true },
-    { key: 'fecha_actualizacion', label: 'Fecha actualización', sortable: true, filterable: true },
-    { key: 'fecha_vencimiento', label: 'Fecha vencimiento', sortable: true, filterable: true },
-    { key: 'fecha_vigencia', label: 'Fecha vigencia', sortable: true, filterable: true },
+    { key: 'fecha_creacion', label: 'F. Creación', sortable: true, filterable: true },
+    { key: 'fecha_actualizacion', label: 'F. Actualización', sortable: true, filterable: true },
+    { key: 'fecha_vencimiento', label: 'F. Vencimiento', sortable: true, filterable: true },
+    { key: 'fecha_vigencia', label: 'F. Vigencia', sortable: true, filterable: true },
     {
       key: 'acciones',
       label: 'Acciones',

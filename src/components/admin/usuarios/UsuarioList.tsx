@@ -17,7 +17,7 @@ const UsuarioList: React.FC<UsuarioListProps> = ({ items, onEdit, onDelete }) =>
     { key: 'correo', label: 'Correo', sortable: true, filterable: true },
     { key: 'cargoNombre', label: 'Cargo', sortable: true, filterable: true },
     { key: 'rolNombre', label: 'Rol', sortable: true, filterable: true },
-    { key: 'fecha_creacion', label: 'Fecha de creación', sortable: true, filterable: true },
+    { key: 'fechaCreacion', label: 'Fecha Creación', sortable: true, filterable: true },
     {
       key: 'acciones',
       label: 'Acciones',

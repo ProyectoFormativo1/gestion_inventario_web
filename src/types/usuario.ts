@@ -6,10 +6,9 @@ export type Usuario = {
   nombres: string;
   apellidos: string;
   correo: string;
-  contrasena: string;
   cargoId: number;
   rolId: number;
-  fecha_creacion: Date;
+  fechaCreacion: Date;
   cargoNombre?: string; // opcional para mostrar en tablas
   rolNombre?: string;   // opcional para mostrar en tablas
 } & Base;

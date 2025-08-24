@@ -4,7 +4,7 @@ import { Base } from "./base";
 export type Ficha = {
   id: number;
   codigo: string;
-  fecha_creacion: string; // en formato YYYY-MM-DD
+  fechaCreacion: string; // en formato YYYY-MM-DD
   programaId: number;
   programaNombre?: string; 
   areaId: number;
@@ -23,6 +23,6 @@ export type Ficha = {
 export type SaveFicha = {
   id?: number;
   codigo: string;
-  fecha_creacion: string;
   programaId: number;
+  ambienteId: number;
 };

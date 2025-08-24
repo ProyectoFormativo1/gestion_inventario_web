@@ -38,6 +38,12 @@ const BodegaFilter = ({
 
     // Guarda en localStorage cada vez que cambian
     useEffect(() => {
+        if (sedeSelectedId !== null) {
+            localStorage.setItem("sedeId", String(sedeSelectedId));
+        }
+    }, [sedeSelectedId]);
+
+    useEffect(() => {
         if (locacionSelectedId !== null) {
             localStorage.setItem("locacionId", String(locacionSelectedId));
         }
@@ -97,6 +103,7 @@ const BodegaFilter = ({
                 onChange={(e) => {
                     const value = e.target.value;
                     if (onChangeSede) {
+                        console.log("Selected Sede ID:", value);
                         setSelectedSedeId(Number(value));
                         onChangeSede(Number(value));
                     }

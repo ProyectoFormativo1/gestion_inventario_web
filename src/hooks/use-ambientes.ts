@@ -1,8 +1,20 @@
 // useambientes.ts
 
-import { createAmbientesApi, deleteAmbientesApi, findAllambientesApi, updateAmbientesApi } from "@/services/ambientes.service";
+import { createAmbientesApi, deleteAmbientesApi, findAllambientesApi, findAllambientesByAreaApi, updateAmbientesApi } from "@/services/ambientes.service";
 import { Ambientes } from "@/types/ambientes";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+
+export function useAmbientesByArea(areaId?: number | null) {
+  return useQuery<Ambientes[]>({
+    queryKey: ["ambientesByArea", areaId],
+    queryFn: ({ queryKey }) => {
+      const [, areaId] = queryKey;
+      return findAllambientesByAreaApi(areaId as number);
+    },
+    enabled: !!areaId,
+  });
+}
 
 export function useambientes() {
   const queryClient = useQueryClient();

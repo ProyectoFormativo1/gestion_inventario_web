@@ -2,7 +2,7 @@ import { createMaterialApi, deleteMaterialApi, findAllMaterialesByBodegaApi, upd
 import { Material } from "@/types/material";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useMaterial(bodegaId: number) {
+export function useMaterial(bodegaId?: number | null) {
   const queryClient = useQueryClient();
 
   // GET
@@ -22,6 +22,7 @@ export function useMaterial(bodegaId: number) {
         ...material,
         key: material.id, // key para DataTable
       })),
+    enabled: !!bodegaId, // habilitar la consulta solo si bodegaId está disponible
   });
 
   // CREATE

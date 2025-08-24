@@ -56,11 +56,11 @@ const BodegaList: React.FC<BodegaListProps> = ({ onEdit, onDelete, items }) => {
             <CardBody className="px-3 py-0 text-small text-default-400">
               <div className="flex items-center gap-2">
                 <Package />
-                <span>250 materiales</span>
+                <span>{item.totalMateriales ?? 0} materiales</span>
               </div>
               <div className="flex items-center gap-2">
                 <User />
-                <span>Juan Carlos Salam</span>
+                <span>{item.responsable}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Database />

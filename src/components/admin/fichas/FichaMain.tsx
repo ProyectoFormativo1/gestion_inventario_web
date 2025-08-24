@@ -9,18 +9,18 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
-import { useCentrosFormacion } from "@/hooks/use-centroformacion";
+import { useCentrosFormacion, useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
 import { useLocacion } from "@/hooks/use-locacion";
-import { useSede } from "@/hooks/use-sede";
-import { useAreas } from "@/hooks/use-area";
-import { useambientes } from "@/hooks/use-ambientes";
+import { useSede, useSedesByCentros } from "@/hooks/use-sede";
+import { useAreas, useAreasBySedes } from "@/hooks/use-area";
+import { useambientes, useAmbientesByArea } from "@/hooks/use-ambientes";
 import { useProgramas } from "@/hooks/use-programa";
 
 interface FichasMainProps {
   programas: { id: number; nombre: string }[];
 }
 
-const FichasMain: React.FC<FichasMainProps> = ({}) => {
+const FichasMain: React.FC<FichasMainProps> = ({ }) => {
   const [action, setAction] = useState<Action>(Action.ADD);
   const [selectedFicha, setSelectedFicha] = useState<Ficha | null>(null);
   const [fichaToDelete, setFichaToDelete] = useState<Ficha | null>(null);
@@ -32,18 +32,33 @@ const FichasMain: React.FC<FichasMainProps> = ({}) => {
     null
   );
 
+  //Table
   const { data, isLoading, createFicha, updateFicha, deleteFicha } =
     useFichas();
-  const { data: centros } = useCentrosFormacion();
+
+
+  //Listas
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+  const [centroSelectedId, setSelectedCentroId] = useState<number | null>(null);
+  const [sedeSelectedId, setSelectedSedeId] = useState<number | null>(null);
+  const [areaSelectedId, setSelectedAreaId] = useState<number | null>(null);
+
   const { ciudades } = useLocacion();
+  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+  const { data: sedesByCentros } = useSedesByCentros(centroSelectedId);
+  const { data: areasBySedes } = useAreasBySedes(sedeSelectedId);
+  const { data: ambientesByArea } = useAmbientesByArea(areaSelectedId);
   const { data: programas } = useProgramas();
-  const { data: sedes } = useSede();
-  const { data: area } = useAreas();
-  const { data: ambiente } = useambientes();
+
+  //Modals
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
     setSelectedFicha(null);
+    setSelectedLocacionId(null);
+    setSelectedCentroId(null);
+    setSelectedSedeId(null);
+    setSelectedAreaId(null);
   };
 
   return (
@@ -67,14 +82,32 @@ const FichasMain: React.FC<FichasMainProps> = ({}) => {
           ref={dialogFormRef}
           content={
             <FichaForm
-              centros={centros ?? []}
+              centros={centrosBylocacion ?? []}
               programas={programas ?? []}
-              areas={area ?? []}
-              sedes={sedes ?? []}
+              areas={areasBySedes ?? []}
+              sedes={sedesByCentros ?? []}
               cities={ciudades ?? []}
-              ambientes={ambiente ?? []}
+              ambientes={ambientesByArea ?? []}
               initialData={selectedFicha ?? undefined}
               onCancel={closeModal}
+              onChangeCiudad={(ciudadId) => {
+                setSelectedLocacionId(ciudadId);
+                setSelectedCentroId(null);
+                setSelectedSedeId(null);
+                setSelectedAreaId(null);
+              }}
+              onChangeCentro={(centroId) => {
+                setSelectedCentroId(centroId);
+                setSelectedSedeId(null);
+                setSelectedAreaId(null);
+              }}
+              onChangeSede={(sedeId) => {
+                setSelectedSedeId(sedeId);
+                setSelectedAreaId(null);
+              }}
+              onChangeArea={(areaId) => {
+                setSelectedAreaId(areaId);
+              }}
               actionType={action}
               onSave={(item: SaveFicha) => {
                 action === Action.EDIT ? updateFicha(item) : createFicha(item);
@@ -92,6 +125,10 @@ const FichasMain: React.FC<FichasMainProps> = ({}) => {
           onEdit={(item) => {
             setAction(Action.EDIT);
             setSelectedFicha(item);
+            setSelectedLocacionId(item.locacionId);
+            setSelectedCentroId(item.centroFormacionId);
+            setSelectedSedeId(item.sedeId);
+            setSelectedAreaId(item.areaId);
             openModal();
           }}
           onDelete={(item) => {
@@ -106,6 +143,10 @@ const FichasMain: React.FC<FichasMainProps> = ({}) => {
             if (confirmed && fichaToDelete) {
               deleteFicha(fichaToDelete.id);
               setFichaToDelete(null);
+              setSelectedLocacionId(null);
+              setSelectedCentroId(null);
+              setSelectedSedeId(null);
+              setSelectedAreaId(null);
             }
           }}
           title="Confirmar Eliminación"
