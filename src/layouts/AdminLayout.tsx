@@ -10,8 +10,8 @@ const AdminLayout = () => {
       <NavbarApp
         menuItems={ adminMenu}
         isAuthenticated={isAuthenticated}
-        email={user?.email}
-        fullName={user?.fullName}
+        email={user?.correo}
+        fullName={user?.nombres + " " + user?.apellidos}
         onLogOut={onLogout}
       />
 

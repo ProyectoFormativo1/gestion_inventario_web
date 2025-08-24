@@ -1,9 +1,7 @@
 import { Ambientes, SaveAmbientes } from "../../../types/ambientes";
 import { Action } from "@/models/action";
 import { CentroFormacion } from "@/types/centro-formacion";
-import { Ficha } from "@/types/ficha";
 import { Locacion } from "@/types/locacion";
-import { Programa } from "@/types/programa";
 import { Sede } from "@/types/sede";
 import { Button } from "@heroui/button";
 import { Form } from "@heroui/form";
@@ -13,27 +11,29 @@ import { Select, SelectItem } from "@heroui/select";
 interface AmbientesFormProps {
   onSave?: (item: SaveAmbientes) => void;
   onCancel?: () => void;
+  onChangeCiudad?: (id: number) => void;
+  onChangeCentro?: (id: number) => void;
+  onChangeSede?: (id: number) => void;
   actionType?: Action;
   initialData?: Ambientes;
   areas: { id: number; nombre: string }[];
   sedes: Sede[];
   centros: CentroFormacion[];
   cities: Locacion[];
-  fichas: Ficha[];
-  programas: Programa[];
 }
 
 const AmbientesForm = ({
   onSave,
   onCancel,
+  onChangeCiudad,
+  onChangeCentro,
+  onChangeSede,
   actionType,
   initialData,
   areas,
   sedes,
   centros,
-  cities,
-  fichas,
-  programas,
+  cities
 }: AmbientesFormProps) => {
   return (
     <Form
@@ -46,7 +46,7 @@ const AmbientesForm = ({
           onSave({
             id: initialData?.id,
             nombre: data.nombre as any,
-            fichaId: data.fichaId as any,
+            areaId: Number(data.areaId) as any,
           });
         }
       }}
@@ -65,6 +65,12 @@ const AmbientesForm = ({
         labelPlacement="outside"
         label="Ciudad"
         name="locationId"
+        onChange={(e) => {
+          const value = e.target.value;
+          if (onChangeCiudad) {
+            onChangeCiudad(Number(value));
+          }
+        }}
         defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
         placeholder="Seleccione una opción"
       >
@@ -79,6 +85,12 @@ const AmbientesForm = ({
         name="centroFormacionId"
         defaultSelectedKeys={initialData?.centroFormacionId?.toString() ?? ""}
         placeholder="Seleccione una opción"
+        onChange={(e) => {
+          const value = e.target.value;
+          if (onChangeCentro) {
+            onChangeCentro(Number(value));
+          }
+        }}
       >
         {centros.map((centro) => (
           <SelectItem key={centro.id}>{centro.nombre}</SelectItem>
@@ -93,6 +105,12 @@ const AmbientesForm = ({
           initialData?.sedeId ? [initialData.sedeId.toString()] : []
         }
         placeholder="Seleccione una sede"
+        onChange={(e) => {
+          const value = e.target.value;
+          if (onChangeSede) {
+            onChangeSede(Number(value));
+          }
+        }}
       >
         {sedes?.map((sede) => (
           <SelectItem key={sede.id}>{sede.nombre}</SelectItem>
@@ -111,34 +129,6 @@ const AmbientesForm = ({
       >
         {areas.map((area) => (
           <SelectItem key={area.id}>{area.nombre}</SelectItem>
-        ))}
-      </Select>
-      <Select
-        isRequired
-        label="Programa"
-        labelPlacement="outside"
-        name="programaId"
-        defaultSelectedKeys={
-          initialData?.programaId ? [initialData.programaId.toString()] : []
-        }
-        placeholder="Seleccione un programa"
-      >
-        {programas.map((programa) => (
-          <SelectItem key={programa.id}>{programa.nombre}</SelectItem>
-        ))}
-      </Select>
-      <Select
-        isRequired
-        label="Ficha"
-        labelPlacement="outside"
-        name="fichaId"
-        defaultSelectedKeys={
-          initialData?.fichaId ? [initialData.fichaId.toString()] : []
-        }
-        placeholder="Seleccione una Ficha"
-      >
-        {fichas.map((ficha) => (
-          <SelectItem key={ficha.id}>{ficha.codigo}</SelectItem>
         ))}
       </Select>
 

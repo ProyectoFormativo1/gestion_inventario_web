@@ -9,12 +9,12 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
-import { useCentrosFormacion } from "@/hooks/use-centroformacion";
+import { useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
 import { useLocacion } from "@/hooks/use-locacion";
-import { useSede } from "@/hooks/use-sede";
-interface AreasMainProps {}
+import { useSedesByCentros } from "@/hooks/use-sede";
+interface AreasMainProps { }
 
-const AreasMain: React.FC<AreasMainProps> = ({}) => {
+const AreasMain: React.FC<AreasMainProps> = ({ }) => {
   const [action, setAction] = useState<Action>(Action.ADD);
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   const [areaToDelete, setAreaToDelete] = useState<Area | null>(null);
@@ -26,10 +26,18 @@ const AreasMain: React.FC<AreasMainProps> = ({}) => {
     null
   );
 
-  const { data, isLoading, createArea, updateArea, deleteArea } = useAreas();
-  const { data: centros } = useCentrosFormacion();
+  //Listas
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+  const [centroSelectedId, setSelectedCentroId] = useState<number | null>(null);
+
   const { ciudades } = useLocacion();
-  const { data: sede } = useSede();
+  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+  const { data: sedesByCentros } = useSedesByCentros(centroSelectedId);
+
+  //Table
+  const { data, isLoading, createArea, updateArea, deleteArea } = useAreas();
+
+  //Modal
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
@@ -57,11 +65,18 @@ const AreasMain: React.FC<AreasMainProps> = ({}) => {
           ref={dialogFormRef}
           content={
             <AreaForm
-              centros={centros ?? []}
-              sedes={sede ?? []}
+              centros={centrosBylocacion ?? []}
+              sedes={sedesByCentros ?? []}
               cities={ciudades ?? []}
               initialData={selectedArea ?? undefined}
               onCancel={closeModal}
+              onChangeCiudad={(ciudadId) => {
+                setSelectedLocacionId(ciudadId);
+                setSelectedCentroId(null);
+              }}
+              onChangeCentro={(centroId) => {
+                setSelectedCentroId(centroId);
+              }}
               actionType={action}
               onSave={(item: SaveArea) => {
                 action === Action.EDIT ? updateArea(item) : createArea(item);
@@ -79,6 +94,8 @@ const AreasMain: React.FC<AreasMainProps> = ({}) => {
           onEdit={(item) => {
             setAction(Action.EDIT);
             setSelectedArea(item);
+            setSelectedLocacionId(item.locacionId);
+            setSelectedCentroId(item.centroFormacionId);
             openModal();
           }}
           onDelete={(item) => {
@@ -93,6 +110,8 @@ const AreasMain: React.FC<AreasMainProps> = ({}) => {
             if (confirmed && areaToDelete) {
               deleteArea(areaToDelete.id);
               setAreaToDelete(null);
+              setSelectedLocacionId(null);
+              setSelectedCentroId(null);
             }
           }}
           title="Confirmar Eliminación"

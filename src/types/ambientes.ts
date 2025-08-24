@@ -4,8 +4,6 @@ import { Base } from "./base";
 export type Ambientes = {
     id: number;
     nombre: string;
-    fichaId: number;
-    fichaNombre: string;
     areaId: number;
     areaNombre?: string; 
     sedeId: number;
@@ -14,14 +12,11 @@ export type Ambientes = {
     centroFormacionId: number;
     locacionId: number;
     locacionNombre: string;
-    programaId: number;
-    programaNombre: string;
-  
 } & Base;
 
 // Modelo para Crear y Editar Centro de Formacion
 export type SaveAmbientes = {
     id?: number;
     nombre: string;
-    fichaId: number;
+    areaId: number;
 };

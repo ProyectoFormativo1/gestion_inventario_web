@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/auth-context";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { loginApi, LoginResponse } from "../services/auth.service";
+import { loginApi, LoginResponseDto } from "../services/auth.service";
 import { AuthLogin } from "../models/auth";
 
 export const useAuth = () => {
@@ -12,8 +12,8 @@ export const useAuth = () => {
   return context;
 };
 
-export const useLogin = (request: AuthLogin|null): UseQueryResult<LoginResponse, Error> => {
-  return useQuery<LoginResponse, Error>({
+export const useLogin = (request: AuthLogin|null): UseQueryResult<LoginResponseDto, Error> => {
+  return useQuery<LoginResponseDto, Error>({
     queryKey: ['login', request],
     queryFn: () => loginApi(request!),
     retry: 0,

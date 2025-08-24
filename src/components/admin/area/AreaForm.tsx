@@ -9,6 +9,8 @@ import { Locacion } from "@/types/locacion";
 
 interface AreaFormProps {
   onSave?: (item: SaveArea) => void;
+  onChangeCiudad?: (id: number) => void;
+  onChangeCentro?: (id: number) => void;
   onCancel?: () => void;
   actionType?: Action;
   initialData?: Area;
@@ -20,6 +22,8 @@ interface AreaFormProps {
 const AreaForm = ({
   onSave,
   onCancel,
+  onChangeCiudad,
+  onChangeCentro,
   actionType,
   initialData,
   sedes,
@@ -56,6 +60,11 @@ const AreaForm = ({
         labelPlacement="outside"
         label="Ciudad"
         name="locationId"
+        onChange={(value) => {
+          if (onChangeCiudad) {
+            onChangeCiudad(Number(value.target.value));
+          }
+        }}
         defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
         placeholder="Seleccione una opción"
       >
@@ -68,6 +77,11 @@ const AreaForm = ({
         isRequired
         labelPlacement="outside"
         name="centroFormacionId"
+        onChange={(value) => {
+          if (onChangeCentro) {
+            onChangeCentro(Number(value.target.value));
+          }
+        }}
         defaultSelectedKeys={initialData?.centroFormacionId?.toString() ?? ""}
         placeholder="Seleccione una opción"
       >

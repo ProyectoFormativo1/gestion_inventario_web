@@ -1,33 +1,49 @@
 // usebodega.ts
 
-import { createBodegaApi, deleteBodegaApi, findAllbodegaApi, updateBodegaApi } from "@/services/bodega.service";
+import {
+  createBodegaApi,
+  deleteBodegaApi,
+  findAllBodegasBySedeApi,
+  updateBodegaApi,
+} from "@/services/bodega.service";
 import { Bodega } from "@/types/bodega";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useBodegas() {
-  const queryClient = useQueryClient();
 
-  // GET
+export function useBodegasBySede(sedeId?: number | null) {
   const {
-    data: data,
+    data,
     isLoading,
     isError,
     refetch,
   } = useQuery<Bodega[]>({
-    queryKey: ["bodega"],
-    queryFn: findAllbodegaApi,
-    select: (data) =>
-      data.map((bodega) => ({
-        ...bodega,
-        key: bodega.id, // agregamos la key ara el datatable
-      })),
+    queryKey: ["bodegasBySede", sedeId],
+    queryFn: ({ queryKey }) => {
+      const [, sedeId] = queryKey;
+      return findAllBodegasBySedeApi(sedeId as number);
+    },
+    enabled: !!sedeId,
   });
+
+  return {
+    data,
+    isLoading,
+    isError,
+    refetch,
+  };
+}
+
+export function useBodegas(sedeId?: number | null) {
+  const queryClient = useQueryClient();
 
   // CREATE
   const createMutation = useMutation({
     mutationFn: createBodegaApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bodega"] });
+      if (sedeId) {
+        queryClient.invalidateQueries({ queryKey: ["bodegasBySede", sedeId] });
+      }
     },
   });
 
@@ -36,6 +52,9 @@ export function useBodegas() {
     mutationFn: updateBodegaApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bodega"] });
+      if (sedeId) {
+        queryClient.invalidateQueries({ queryKey: ["bodegasBySede", sedeId] });
+      }
     },
   });
 
@@ -44,14 +63,13 @@ export function useBodegas() {
     mutationFn: deleteBodegaApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bodega"] });
+      if (sedeId) {
+        queryClient.invalidateQueries({ queryKey: ["bodegasBySede", sedeId] });
+      }
     },
   });
 
   return {
-    data,
-    isLoading,
-    isError,
-    refetch,
     createBodega: createMutation.mutate,
     updateBodega: updateMutation.mutate,
     deleteBodega: deleteMutation.mutate,

@@ -9,6 +9,7 @@ import { Locacion } from "@/types/locacion";
 
 interface SedeFormProps {
     onSave?: (item: SaveSede) => void;
+    onChangeCiudad?: (id: number) => void;
     onCancel?: () => void;
     actionType?: Action;
     initialData?: Sede;
@@ -19,6 +20,7 @@ interface SedeFormProps {
 const CentroFormacionForm = ({
     onSave,
     onCancel,
+    onChangeCiudad,
     actionType,
     initialData,
     centros,
@@ -36,7 +38,7 @@ const CentroFormacionForm = ({
                     onSave({
                         id: initialData?.id,
                         nombre: data.nombre as any,
-                        centroFormacionId: data.centroFormacionId as any
+                        centroFormacionId: Number(data.centroFormacionId) as any
                     });
                 }
             }}
@@ -55,7 +57,14 @@ const CentroFormacionForm = ({
                 labelPlacement="outside"
                 label="Ciudad"
                 name="locationId"
-                defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
+                onChange={(value) => {
+                    if (onChangeCiudad) {
+                        onChangeCiudad(Number(value.target.value));
+                    }
+                }}
+                defaultSelectedKeys={
+                    initialData?.locacionId ? [initialData.locacionId.toString()] : []
+                }
                 placeholder="Seleccione una opción"
             >
                 {cities.map((city) => (
@@ -70,7 +79,9 @@ const CentroFormacionForm = ({
                 isRequired
                 labelPlacement="outside"
                 name="centroFormacionId"
-                defaultSelectedKeys={initialData?.centroFormacionId?.toString() ?? ""}
+                defaultSelectedKeys={
+                    initialData?.centroFormacionId ? [initialData.centroFormacionId.toString()] : []
+                }
                 placeholder="Seleccione una opción"
             >
                 {centros.map((centro) => (

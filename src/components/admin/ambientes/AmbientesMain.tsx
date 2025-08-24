@@ -12,13 +12,10 @@ import AmbientesForm from "./AmbientesForm";
 import AmbientesList from "./AmbientesList";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
-import { useCentrosFormacion } from "@/hooks/use-centroformacion";
-import { useSede } from "@/hooks/use-sede";
-import { useAreas } from "@/hooks/use-area";
-import { useFichas } from "@/hooks/use-ficha";
-import { useProgramas } from "@/hooks/use-programa";
-
-interface AmbientesMainProps {}
+import { useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
+import { useSedesByCentros } from "@/hooks/use-sede";
+import { useAreasBySedes } from "@/hooks/use-area";
+interface AmbientesMainProps { }
 
 const AmbientesMain: React.FC<AmbientesMainProps> = () => {
   const [action, setAction] = useState<Action>(Action.ADD);
@@ -36,19 +33,29 @@ const AmbientesMain: React.FC<AmbientesMainProps> = () => {
     null
   );
 
+  //Table
   const { data, isLoading, createAmbientes, updateAmbientes, deleteAmbientes } =
     useambientes();
-      const { data: centros } = useCentrosFormacion();
-      const { ciudades } = useLocacion();
-      const { data: sedes } = useSede();
-      const { data: area } = useAreas();
-      const { data: ficha } = useFichas();
-      const { data: programa } = useProgramas();
 
+  //Listas
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+  const [centroSelectedId, setSelectedCentroId] = useState<number | null>(null);
+  const [sedeSelectedId, setSelectedSedeId] = useState<number | null>(null);
+
+  const { ciudades } = useLocacion();
+  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+  const { data: sedesByCentros } = useSedesByCentros(centroSelectedId);
+  const { data: areasBySedes } = useAreasBySedes(sedeSelectedId);
+
+
+  //Modal
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
     setSelectedAmbiente(null);
+    setSelectedLocacionId(null);
+    setSelectedCentroId(null);
+    setSelectedSedeId(null);
   };
 
   return (
@@ -76,14 +83,24 @@ const AmbientesMain: React.FC<AmbientesMainProps> = () => {
           ref={dialogFormRef}
           content={
             <AmbientesForm
-              centros={centros ?? []}
-              areas={area ?? []}
-              sedes={sedes ?? []}
+              centros={centrosBylocacion ?? []}
+              areas={areasBySedes ?? []}
+              sedes={sedesByCentros ?? []}
               cities={ciudades ?? []}
-              fichas={ficha ?? []}
-              programas={programa ?? []}
               initialData={selectedAmbiente ?? undefined}
               onCancel={closeModal}
+              onChangeCentro={(centroId) => {
+                setSelectedCentroId(centroId);
+                setSelectedSedeId(null);
+              }}
+              onChangeCiudad={(ciudadId) => {
+                setSelectedLocacionId(ciudadId);
+                setSelectedCentroId(null);
+                setSelectedSedeId(null);
+              }}
+              onChangeSede={(sedeId) => {
+                setSelectedSedeId(sedeId);
+              }}
               onSave={(item: SaveAmbientes) => {
                 if (action === Action.EDIT) {
                   updateAmbientes(item);
@@ -106,6 +123,9 @@ const AmbientesMain: React.FC<AmbientesMainProps> = () => {
           onEdit={(item) => {
             setAction(Action.EDIT);
             setSelectedAmbiente(item);
+            setSelectedLocacionId(item.locacionId);
+            setSelectedCentroId(item.centroFormacionId);
+            setSelectedSedeId(item.sedeId);
             openModal();
           }}
           onDelete={(item) => {

@@ -1,8 +1,8 @@
-import { createMaterialApi, deleteMaterialApi, findAllMaterialesApi, updateMaterialApi } from "@/services/material.service";
+import { createMaterialApi, deleteMaterialApi, findAllMaterialesByBodegaApi, updateMaterialApi } from "@/services/material.service";
 import { Material } from "@/types/material";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useMaterial() {
+export function useMaterial(bodegaId: number) {
   const queryClient = useQueryClient();
 
   // GET
@@ -12,8 +12,11 @@ export function useMaterial() {
     isError,
     refetch,
   } = useQuery<Material[]>({
-    queryKey: ["materiales"],
-    queryFn: findAllMaterialesApi,
+    queryKey: ["materiales", bodegaId],
+     queryFn: ({ queryKey }) => {
+        const [, bodegaId] = queryKey;
+        return findAllMaterialesByBodegaApi(bodegaId as number);
+      },
     select: (data) =>
       data.map((material) => ({
         ...material,

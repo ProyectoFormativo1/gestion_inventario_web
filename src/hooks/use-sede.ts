@@ -1,7 +1,25 @@
 // useSede.ts
-import { createSedeApi, deleteSedeApi, findAllSedeApi, updateSedeApi } from "@/services/sede.service";
+import {
+  createSedeApi,
+  deleteSedeApi,
+  findAllSedeApi,
+  findAllSedesByCentrosFormacionApi,
+  updateSedeApi,
+} from "@/services/sede.service";
 import { Sede } from "@/types/sede";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+export function useSedesByCentros(centroformacionId?: number | null) {
+  return useQuery<Sede[]>({
+    queryKey: ["sedesByCentros", centroformacionId],
+    queryFn: ({ queryKey }) => {
+      const [, id] = queryKey;
+      return findAllSedesByCentrosFormacionApi(id as number);
+    },
+    enabled: !!centroformacionId,
+  });
+}
+
 
 export function useSede() {
   const queryClient = useQueryClient();
@@ -20,6 +38,7 @@ export function useSede() {
         key: centro.id, // agregamos la key ara el datatable
       })),
   });
+
 
   // CREATE
   const createMutation = useMutation({

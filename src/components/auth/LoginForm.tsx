@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth, useLogin } from "../../hooks/use-auth";
 import { AuthLogin } from "../../models/auth";
-import { User } from "../../models/user";
 import { Card, CardBody } from "@heroui/card";
 import {Form} from "@heroui/form";
 import { Input } from "@heroui/input";
@@ -21,12 +20,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      const newUser = new User(
-        data.user.fullName,
-        data.user.email,
-        data.user.role
-      );
-      onLoginSuccess(newUser);
+      onLoginSuccess(data.user, data.token);
     }
   }, [isSuccess, data]);
 
@@ -39,13 +33,13 @@ const LoginForm = () => {
         <Form
           className="w-full mx-auto flex flex-col items-center gap-4"
           validationBehavior="native"
-          onReset={() => setAction("null")}
+          onReset={() => setAction("")}
           onSubmit={(e) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
             const data = Object.fromEntries(formData.entries());
             onLogin(
-              new AuthLogin(data.email as string, data.password as string)
+              new AuthLogin(data.correo as string, data.contrasena as string)
             );
           }}
         >
@@ -57,7 +51,7 @@ const LoginForm = () => {
             isRequired
             errorMessage="Por favor ingrese un email válido"
             labelPlacement="outside"
-            name="email"
+            name="correo"
             color="secondary"
             placeholder="Ingresa tu usuario"
             type="email"
@@ -66,7 +60,7 @@ const LoginForm = () => {
             isRequired
             errorMessage="Por favor ingrese una contraseña válida"
             labelPlacement="outside"
-            name="password"
+            name="contrasena"
             color="secondary"
             placeholder="Ingresa tu contraseña"
             type="password"

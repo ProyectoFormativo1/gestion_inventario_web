@@ -58,14 +58,6 @@ export const adminMenu: MenuItem[] = [
         path: routes.programas,
         icon: <ArrowRight className="h-6 w-6" />,
       },
-       
-      {
-        code: "BODEGAS",
-        title: "Bodegas",
-        path: routes.bodegas,
-        icon: <ArrowRight className="h-6 w-6" />,
-      },
- 
       {
         code: "AMBIENTES",
         title: "Ambientes",
@@ -88,9 +80,9 @@ export const adminMenu: MenuItem[] = [
     icon: <ShieldUser className="h-6 w-6" />,
   },
   {
-    code: "MATERIALES",
-    title: "Materiales",
-    path: routes.materiales,
+    code: "BODEGAS",
+    title: "Bodegas",
+    path: routes.bodegas,
     icon: <PackageSearch className="h-6 w-6" />,
   },
   {

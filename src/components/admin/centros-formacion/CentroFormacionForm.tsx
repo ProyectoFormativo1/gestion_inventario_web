@@ -33,7 +33,7 @@ const CentroFormacionForm = ({
                     onSave({
                         id: initialData?.id,
                         nombre: data.nombre as any,
-                        locacionId: data.locacionId as any
+                        locacionId: Number(data.locacionId) as any
                     });
                 }
             }}
@@ -51,8 +51,10 @@ const CentroFormacionForm = ({
                 isRequired
                 labelPlacement="outside"
                 label="Ciudad"
-                name="locationId"
-                defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
+                name="locacionId"
+                defaultSelectedKeys={
+                    initialData?.locacionId ? [initialData.locacionId.toString()] : []
+                }
                 placeholder="Seleccione una opción"
             >
                 {cities.map((city) => (
@@ -61,7 +63,6 @@ const CentroFormacionForm = ({
                     </SelectItem>
                 ))}
             </Select>
-
             <div className="flex justify-end w-full">
                 <Button color="default" onPress={onCancel} className="w-40 mr-2">
                     Cancelar

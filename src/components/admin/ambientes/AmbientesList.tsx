@@ -15,7 +15,7 @@ const AmbientesList: React.FC<AmbientesListProps> = ({ onEdit, onDelete, items }
   const columns: Column<Ambientes>[] = [
     { key: 'id', label: 'ID', sortable: true, filterable: true },
     { key: 'nombre', label: 'Nombre', sortable: true, filterable: true },
-    { key: 'fichaId', label: 'Codigo', sortable: true, filterable: true },
+    { key: 'areaNombre', label: 'Area', sortable: true, filterable: true },
     {
       key: 'acciones',
       label: 'Acciones',

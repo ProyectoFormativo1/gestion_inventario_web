@@ -17,20 +17,21 @@ export function useLocacion() {
     isError,
     refetch,
   } = useQuery<Locacion[]>({
-    queryKey: ["locacion"],
+    queryKey: ["locacion", "ciudad"],
     queryFn: findAllLocacionesApi,
-    select: (data) =>
-      data.filter(a=>a.tipo==='ciudad').map((ciudad) => ({
+    select: (data) => {
+      return data.filter(a=>a.tipo==='ciudad').map((ciudad) => ({
         ...ciudad,
         key: ciudad.id, // agregamos la key para el datatable
-      })),
+      }))
+    }
   });
 
    // GET
   const {
     data: departamentos,
   } = useQuery<Locacion[]>({
-    queryKey: ["locacion"],
+  queryKey: ["locacion", "departamento"],
     queryFn: findAllLocacionesApi,
     select: (data) =>
       data.filter(a=>a.tipo==='departamento').map((ciudad) => ({
@@ -43,7 +44,7 @@ export function useLocacion() {
   const createMutation = useMutation({
     mutationFn: createLocacionApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["locacion"] });
+       queryClient.invalidateQueries({ queryKey: ["locacion", "ciudad"] });
     },
   });
 
@@ -51,7 +52,7 @@ export function useLocacion() {
   const updateMutation = useMutation({
     mutationFn: updateLocacionApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["locacion"] });
+        queryClient.invalidateQueries({ queryKey: ["locacion", "ciudad"] });
     },
   });
 
@@ -59,7 +60,7 @@ export function useLocacion() {
   const deleteMutation = useMutation({
     mutationFn: deleteLocacionApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["locacion"] });
+        queryClient.invalidateQueries({ queryKey: ["locacion", "ciudad"] });
     },
   });
 

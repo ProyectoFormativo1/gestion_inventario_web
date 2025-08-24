@@ -1,10 +1,8 @@
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
-import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 import { SaveRol, Rol } from "@/types/rol";
 import { Action } from "@/models/action";
-import { Role } from "@/models/role"; // Enum de roles
 
 interface RolFormProps {
   onSave?: (item: SaveRol) => void;
@@ -29,25 +27,22 @@ const RolForm = ({
         if (onSave) {
           onSave({
             id: initialData?.id,
-            nombre: data.nombre as Role, 
+            nombre: data.nombre as string, 
             codigo: data.codigo as string,
             fecha_creacion: initialData?.fecha_creacion ?? new Date()
           });
         }
       }}
     >
-      <Select
+       <Input
         isRequired
+        label="Rol"
         labelPlacement="outside"
-        label="Nombre del Rol"
         name="nombre"
-        defaultSelectedKeys={initialData?.nombre ? [initialData.nombre] : []}
-        placeholder="Seleccione un rol"
-      >
-        {Object.values(Role).map((rol) => (
-          <SelectItem key={rol}>{rol}</SelectItem>
-        ))}
-      </Select>
+        placeholder="Ingrese el rol"
+        type="text"
+        defaultValue={initialData?.codigo ?? ""}
+      />
 
       <Input
         isRequired

@@ -1,38 +1,19 @@
+import { User } from "@/models/user";
 import { AuthLogin } from "../models/auth";
-import { Role } from "../models/role";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-export const loginApi = async (request: AuthLogin): Promise<LoginResponse> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        token: "fake-jwt-token",
-        message: "Login exitoso",
-        user: {
-          userId: 12345,
-          fullName: "Daniela Salgado",
-          role: Role.COORDINADOR, // Ajusta según el tipo Role definido
-          email: request.email,
-        },
-      });
-    }, 1000); // Simula un retraso de 1 segundo
+export const loginApi = async (request: AuthLogin): Promise<LoginResponseDto> => {
+  const response = await fetch(`${BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
   });
+  if (!response.ok) throw new Error("Error al crear el área");
+  return response.json();
 };
 
-export interface User {
-  userId: number;
-  fullName: string;
-  role: Role;
-  email: string;
-}
-
-export interface LoginResponse {
+export interface LoginResponseDto {
   user: User;
   token: string;
-  message: string;
+  expiresIn: number;
 }
-
-export interface RegisterResponse extends LoginResponse {
-
-}
-

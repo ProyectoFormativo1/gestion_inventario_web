@@ -2,19 +2,20 @@ import React, { useRef, useState } from "react";
 import BodegaList from "./BodegaList";
 import { Action } from "@/models/action";
 import { Bodega, SaveBodega } from "@/types/bodega";
-import { useBodegas } from "@/hooks/use-bodega";
+import { useBodegas, useBodegasBySede } from "@/hooks/use-bodega";
 import BodegaForm from "./BodegaForm";
 import Alert from "@/components/atomic/molecules/Alert";
 import Modal from "@/components/atomic/molecules/Modal";
-import { useAreas } from "@/hooks/use-area";
+import { useAreasBySedes } from "@/hooks/use-area";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
-import { useCentrosFormacion } from "@/hooks/use-centroformacion";
+import { useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
 import { useLocacion } from "@/hooks/use-locacion";
-import { useSede } from "@/hooks/use-sede";
+import { useSedesByCentros } from "@/hooks/use-sede";
+import BodegaFilter from "./BodegaFilter";
 
-interface BodegasMainProps {}
+interface BodegasMainProps { }
 
 const BodegasMain: React.FC<BodegasMainProps> = () => {
   const [action, setAction] = useState<Action>(Action.ADD);
@@ -25,22 +26,36 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
   const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
 
   // Hook para CRUD de bodegas
+  const [sedeTableSelectedId, setSelectedSedeTableId] = useState<number | null>(null);
+
   const {
-    data: bodegas,
-    isLoading: bodegasLoading,
     createBodega,
     updateBodega,
     deleteBodega,
-  } = useBodegas();
+  } = useBodegas(sedeTableSelectedId);
 
-  // Hook para traer las áreas disponibles
-  const { data: areas, isLoading: areasLoading } = useAreas();
-  const { data: centros } = useCentrosFormacion();
+  const {
+    data: bodegasBySede,
+    isLoading: bodegasLoading
+  } = useBodegasBySede(sedeTableSelectedId);
+
+  //Listas
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+  const [centroSelectedId, setSelectedCentroId] = useState<number | null>(null);
+  const [sedeSelectedId, setSelectedSedeId] = useState<number | null>(null);
+
   const { ciudades } = useLocacion();
-  const { data: sedes } = useSede()
+  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+  const { data: sedesByCentros } = useSedesByCentros(centroSelectedId);
+  const { data: areasBySedes } = useAreasBySedes(sedeSelectedId);
+
+  //Modal
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
+    setSelectedLocacionId(null);
+    setSelectedCentroId(null);
+    setSelectedSedeId(null);
     setSelectedBodega(null);
   };
 
@@ -65,15 +80,27 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
           ref={dialogFormRef}
           content={
             <BodegaForm
-              areas={areas ?? []} 
-              centros={centros ?? []}      
-              cities={ciudades ?? []} 
-              sedes={sedes ?? []} 
+              areas={areasBySedes ?? []}
+              centros={centrosBylocacion ?? []}
+              cities={ciudades ?? []}
+              sedes={sedesByCentros ?? []}
               initialData={selectedBodega ?? undefined}
               onCancel={closeModal}
               onSave={(item: SaveBodega) => {
                 action === Action.EDIT ? updateBodega(item) : createBodega(item);
                 closeModal();
+              }}
+              onChangeCentro={(centroId) => {
+                setSelectedCentroId(centroId);
+                setSelectedSedeId(null);
+              }}
+              onChangeCiudad={(ciudadId) => {
+                setSelectedLocacionId(ciudadId);
+                setSelectedCentroId(null);
+                setSelectedSedeId(null);
+              }}
+              onChangeSede={(sedeId) => {
+                setSelectedSedeId(sedeId);
               }}
               actionType={action}
             />
@@ -81,13 +108,26 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
           title={action === Action.ADD ? "Agregar Bodega" : "Editar Bodega"}
         />
 
-        {(bodegasLoading || areasLoading) && <Loading />}
+        {(bodegasLoading) && <Loading />}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full p-2">
+          <BodegaFilter
+            onChangeSede={(sedeId) => {
+              setSelectedSedeTableId(sedeId);
+            }}
+            cities={ciudades ?? []}
+          />
+        </div>
+
 
         <BodegaList
-          items={bodegas ?? []}
+          items={bodegasBySede ?? []}
           onEdit={(item) => {
             setAction(Action.EDIT);
             setSelectedBodega(item);
+            setSelectedLocacionId(item.locacionId);
+            setSelectedCentroId(item.centroFormacionId);
+            setSelectedSedeId(item.sedeId);
             openModal();
           }}
           onDelete={(item) => {
@@ -102,6 +142,9 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
             if (confirmed && bodegaToDelete) {
               deleteBodega(bodegaToDelete.id);
               setBodegaToDelete(null);
+              setSelectedLocacionId(null);
+              setSelectedCentroId(null);
+              setSelectedSedeId(null);
             }
           }}
           title="Confirmar Eliminación"

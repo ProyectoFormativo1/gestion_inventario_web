@@ -11,8 +11,8 @@ interface MaterialFormProps {
   onCancel?: () => void;
   actionType?: Action;
   initialData?: Material;
-  bodegas: { id: number; nombre: string }[];
-  unidadesMedida: { id: number; nombre: string }[];
+  unidadesMedida: { id: number; nombre: string, simbolo: string }[];
+  bodegaId: number;
 }
 
 const MaterialForm = ({
@@ -20,8 +20,8 @@ const MaterialForm = ({
   onCancel,
   actionType,
   initialData,
-  bodegas,
   unidadesMedida,
+  bodegaId
 }: MaterialFormProps) => {
   return (
     <Form
@@ -35,15 +35,13 @@ const MaterialForm = ({
             id: initialData?.id,
             nombre: data.nombre as string,
             stok: Number(data.stok),
-            fecha_creacion: new Date(data.fecha_creacion as string),
-            fecha_actualizacion: new Date(data.fecha_actualizacion as string),
             numero_contrato: data.numero_contrato as string,
-            fecha_vencimiento: new Date(data.fecha_vencimiento as string),
-            fecha_vigencia: new Date(data.fecha_vigencia as string),
+            fecha_vencimiento: data.fecha_vencimiento ? new Date(data.fecha_vencimiento as string) : undefined,
+            fecha_vigencia: data.fecha_vigencia ? new Date(data.fecha_vigencia as string) : undefined,
             codigo_sena: data.codigo_sena as string,
             codigo_unspsc: data.codigo_unspsc as string,
             tipo: data.tipo as string,
-            bodega_id: Number(data.bodega_id),
+            bodega_id: Number(initialData?.bodega_id ?? bodegaId),
             unidad_medida_id: Number(data.unidad_medida_id),
           });
         }
@@ -56,7 +54,6 @@ const MaterialForm = ({
         placeholder="Ingrese nombre del material"
         defaultValue={initialData?.nombre ?? ""}
       />
-
       <Input
         isRequired
         label="Stock"
@@ -65,31 +62,16 @@ const MaterialForm = ({
         placeholder="Ingrese cantidad"
         defaultValue={initialData?.stok?.toString() ?? ""}
       />
-
-      <Input
+      <Select
         isRequired
-        label="Fecha de creación"
-        name="fecha_creacion"
-        type="date"
-        defaultValue={
-          initialData?.fecha_creacion
-            ? new Date(initialData.fecha_creacion).toISOString().split("T")[0]
-            : ""
-        }
-      />
-
-      <Input
-        isRequired
-        label="Fecha de actualización"
-        name="fecha_actualizacion"
-        type="date"
-        defaultValue={
-          initialData?.fecha_actualizacion
-            ? new Date(initialData.fecha_actualizacion).toISOString().split("T")[0]
-            : ""
-        }
-      />
-
+        label="Unidad de Medida"
+        name="unidad_medida_id"
+        defaultSelectedKeys={initialData?.unidad_medida_id ? [initialData.unidad_medida_id.toString()] : []}
+      >
+        {unidadesMedida.map((unidad) => (
+          <SelectItem key={unidad.id}>{unidad.nombre}</SelectItem>
+        ))}
+      </Select>
       <Input
         isRequired
         label="Número de contrato"
@@ -99,7 +81,6 @@ const MaterialForm = ({
       />
 
       <Input
-        isRequired
         label="Fecha de vencimiento"
         name="fecha_vencimiento"
         type="date"
@@ -109,9 +90,7 @@ const MaterialForm = ({
             : ""
         }
       />
-
       <Input
-        isRequired
         label="Fecha de vigencia"
         name="fecha_vigencia"
         type="date"
@@ -121,7 +100,6 @@ const MaterialForm = ({
             : ""
         }
       />
-
       <Input
         isRequired
         label="Código SENA"
@@ -137,36 +115,17 @@ const MaterialForm = ({
         placeholder="Ingrese código UNSPSC"
         defaultValue={initialData?.codigo_unspsc ?? ""}
       />
-
-      <Input
+      <Select
         isRequired
         label="Tipo"
         name="tipo"
-        placeholder="Ingrese tipo"
-        defaultValue={initialData?.tipo ?? ""}
-      />
-
-      <Select
-        isRequired
-        label="Bodega"
-        name="bodega_id"
-        defaultSelectedKeys={initialData?.bodega_id ? [initialData.bodega_id.toString()] : []}
+        defaultSelectedKeys={initialData?.tipo ? [initialData.tipo.toString()] : []}
       >
-        {bodegas.map((bodega) => (
-          <SelectItem key={bodega.id}>{bodega.nombre}</SelectItem>
-        ))}
-      </Select>
-
-      <Select
-        isRequired
-        label="Unidad de Medida"
-        name="unidad_medida_id"
-        defaultSelectedKeys={initialData?.unidad_medida_id ? [initialData.unidad_medida_id.toString()] : []}
-      >
-        {unidadesMedida.map((unidad) => (
+        {[{ id: "consumible", nombre: "Consumible" }, { id: "devolutivo", nombre: "Devolutivo" }].map((unidad) => (
           <SelectItem key={unidad.id}>{unidad.nombre}</SelectItem>
         ))}
       </Select>
+      
 
       <div className="flex justify-end w-full">
         <Button color="default" onPress={onCancel} className="w-40 mr-2">

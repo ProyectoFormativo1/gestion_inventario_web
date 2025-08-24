@@ -6,7 +6,7 @@ import Modal from "@/components/atomic/molecules/Modal";
 import { useSede } from "@/hooks/use-sede";
 import { SaveSede, Sede } from "@/types/sede";
 import SedeForm from "./SedeForm";
-import { useCentrosFormacion } from "@/hooks/use-centroformacion";
+import { useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
@@ -24,10 +24,17 @@ const SedeMain: React.FC<SedeMainProps> = ({}) => {
   const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(
     null
   );
+
+  //Table
   const { data, isLoading, createSede, updateSede, deleteSede } = useSede();
 
-  const { data: centros } = useCentrosFormacion();
+  //Listas
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+
   const { ciudades } = useLocacion();
+  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+
+  //Modal
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
@@ -55,8 +62,11 @@ const SedeMain: React.FC<SedeMainProps> = ({}) => {
           content={
             <SedeForm
               cities={ciudades ?? []} 
-              centros={centros ?? []}
+              centros={centrosBylocacion ?? []}
               initialData={selectedSede ?? undefined}
+              onChangeCiudad={(ciudadId) => {
+                setSelectedLocacionId(ciudadId);
+              }}
               onCancel={closeModal}
               onSave={(item: SaveSede) => {
                 action === Action.EDIT ? updateSede(item) : createSede(item);
@@ -73,6 +83,7 @@ const SedeMain: React.FC<SedeMainProps> = ({}) => {
           onEdit={(item) => {
             setAction(Action.EDIT);
             setSelectedSede(item);
+            setSelectedLocacionId(item.locacionId);
             openModal();
           }}
           onDelete={(item) => {

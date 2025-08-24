@@ -1,8 +1,27 @@
 // useCentrosFormacion.ts
 
-import { createCentroFormacionApi, deleteCentroFormacionApi, findAllcentrosFormacionApi, updateCentroFormacionApi } from "@/services/centro-formacion.service";
+import {
+  createCentroFormacionApi,
+  deleteCentroFormacionApi,
+  findAllcentrosFormacionApi,
+  findAllcentrosFormacionByLocacionApi,
+  updateCentroFormacionApi,
+} from "@/services/centro-formacion.service";
 import { CentroFormacion } from "@/types/centro-formacion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+
+export function useCentrosFormacionByLocacion(locacionId?: number | null) {
+  return useQuery<CentroFormacion[]>({
+    queryKey: ["centrosFormacionBylocacion", locacionId],
+    queryFn: ({ queryKey }) => {
+      const [, locId] = queryKey;
+      return findAllcentrosFormacionByLocacionApi(locId as number);
+    },
+    enabled: !!locacionId,
+  });
+}
+
 
 export function useCentrosFormacion() {
   const queryClient = useQueryClient();

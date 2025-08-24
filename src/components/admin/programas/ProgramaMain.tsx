@@ -9,12 +9,6 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
-import { useCentrosFormacion } from "@/hooks/use-centroformacion";
-import { useLocacion } from "@/hooks/use-locacion";
-import { useSede } from "@/hooks/use-sede";
-import { useAreas } from "@/hooks/use-area";
-import { useFichas } from "@/hooks/use-ficha";
-
 interface ProgramasMainProps {
 }
 
@@ -27,11 +21,6 @@ const ProgramasMain: React.FC<ProgramasMainProps> = ({  }) => {
   const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
 
   const { data, isLoading, createPrograma, updatePrograma, deletePrograma } = useProgramas();
-      const { data: centros } = useCentrosFormacion();
-      const { ciudades } = useLocacion();
-      const { data: sedes } = useSede();
-      const { data: area } = useAreas();
-      const { data: ficha } = useFichas();
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
     dialogFormRef?.current?.onClose();
@@ -59,12 +48,6 @@ const ProgramasMain: React.FC<ProgramasMainProps> = ({  }) => {
           ref={dialogFormRef}
           content={
             <ProgramaForm
-              
-              centros={centros ?? []}      
-              areas={area ?? []}      
-              sedes={sedes ?? []}      
-              cities={ciudades ?? []} 
-              fichas={ficha ?? []} 
               initialData={selectedPrograma ?? undefined}
               onCancel={closeModal}
               actionType={action}

@@ -2,10 +2,23 @@ import {
   createAreaApi,
   deleteAreaApi,
   findAllAreasApi,
+  findAllAreasBySedesApi,
   updateAreaApi,
 } from "@/services/area.service";
 import { Area } from "@/types/area";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+export function useAreasBySedes(sedeId?: number | null) {
+  return useQuery<Area[]>({
+    queryKey: ["areasBySedes", sedeId],
+    queryFn: ({ queryKey }) => {
+      const [, sedeId] = queryKey;
+      return findAllAreasBySedesApi(sedeId as number);
+    },
+    enabled: !!sedeId,
+  });
+}
+
 
 export function useAreas() {
   const queryClient = useQueryClient();

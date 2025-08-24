@@ -5,6 +5,7 @@ export const routes = {
   centroFormacion: "/centroFormacion",
   sedes: "/sedes",
   bodegas: "/bodegas",
+  materiales: "/bodegas/:id/materiales",
   areas: "/areas",
   ambientes: "/ambientes",
   programas: "/programas",
@@ -14,7 +15,6 @@ export const routes = {
   estadisticas: "/estadisticas",
   fichas: "/fichas",
   usuarios: "/usuarios",
-  materiales: "/materiales",
   movimientos: "/movimientos",
   root: "..",
 };

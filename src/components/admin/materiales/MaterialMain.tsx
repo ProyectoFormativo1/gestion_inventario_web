@@ -7,14 +7,18 @@ import MaterialForm from "./MaterialForm";
 import Alert from "@/components/atomic/molecules/Alert";
 import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
-import { useBodegas } from "@/hooks/use-bodega";
 import { useUnidadMedida } from "@/hooks/use-unidad-medida";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface MaterialesMainProps {}
 
 const MaterialesMain: React.FC<MaterialesMainProps> = () => {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>(); //Id de bodega seleccionada
+
   const [action, setAction] = useState<Action>(Action.ADD);
   const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
   const [materialToDelete, setMaterialToDelete] = useState<Material | null>(null);
@@ -29,9 +33,8 @@ const MaterialesMain: React.FC<MaterialesMainProps> = () => {
     createMaterial,
     updateMaterial,
     deleteMaterial,
-  } = useMaterial();
+  } = useMaterial(Number(id));
 
-  const { data: bodegas, isLoading: bodegasLoading } = useBodegas();
   const { data: unidadesMedida, isLoading: unidadesLoading } = useUnidadMedida();
 
   const openModal = () => dialogFormRef?.current?.onOpen();
@@ -44,6 +47,14 @@ const MaterialesMain: React.FC<MaterialesMainProps> = () => {
     <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
+          <Button
+            variant="bordered"
+            color="primary"
+            startContent={<ArrowLeft />}
+            onPress={() => navigate(-1)}
+          >
+            Volver
+          </Button>
           <h2 className="text-lg font-medium text-gray-800">Materiales</h2>
           <Button
             onPress={() => {
@@ -61,7 +72,7 @@ const MaterialesMain: React.FC<MaterialesMainProps> = () => {
           ref={dialogFormRef}
           content={
             <MaterialForm
-              bodegas={bodegas ?? []}
+              bodegaId={id ? parseInt(id, 10) : 0}
               unidadesMedida={unidadesMedida ?? []}
               initialData={selectedMaterial ?? undefined}
               onCancel={closeModal}
@@ -75,7 +86,7 @@ const MaterialesMain: React.FC<MaterialesMainProps> = () => {
           title={action === Action.ADD ? "Agregar Material" : "Editar Material"}
         />
 
-        {(materialesLoading || bodegasLoading || unidadesLoading) && <Loading />}
+        {(materialesLoading || unidadesLoading) && <Loading />}
 
         <MaterialList
           items={materiales ?? []}

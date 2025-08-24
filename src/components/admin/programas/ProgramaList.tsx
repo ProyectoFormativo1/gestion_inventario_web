@@ -13,7 +13,7 @@ const ProgramaList: React.FC<ProgramaListProps> = ({ onEdit, onDelete, items }) 
   const columns: Column<Programa>[] = [
     { key: "id", label: "ID", sortable: true, filterable: true },
     { key: "nombre", label: "Nombre", sortable: true, filterable: true },
-    { key: "areaNombre", label: "Área", sortable: true, filterable: true },
+    { key: "descripcion", label: "Descripción", sortable: true, filterable: true },
     {
       key: "acciones",
       label: "Acciones",

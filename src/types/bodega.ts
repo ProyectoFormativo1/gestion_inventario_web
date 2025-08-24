@@ -3,6 +3,7 @@ import { Base } from "./base";
 export type Bodega = {
   id: number;
   nombre: string;
+  descripcion: string;
   areaId: number;
   areaNombre: string;
   sedeId: number;
@@ -18,4 +19,5 @@ export type SaveBodega = {
   id?: number;
   nombre: string;
   areaId: number;
+  descripcion: string;
 };

@@ -13,6 +13,9 @@ import { Sede } from "@/types/sede";
 interface BodegaFormProps {
   onSave?: (item: SaveBodega) => void;
   onCancel?: () => void;
+  onChangeCiudad?: (id: number) => void;
+  onChangeCentro?: (id: number) => void;
+  onChangeSede?: (id: number) => void;
   actionType?: Action;
   initialData?: Bodega;
   areas: Area[];
@@ -24,6 +27,9 @@ interface BodegaFormProps {
 const BodegaForm = ({
   onSave,
   onCancel,
+  onChangeCiudad,
+  onChangeCentro,
+  onChangeSede,
   actionType,
   initialData,
   areas,
@@ -42,6 +48,7 @@ const BodegaForm = ({
           onSave({
             id: initialData?.id,
             nombre: data.nombre as string,
+            descripcion: data.descripcion as string,
             areaId: Number(data.areaId),
           });
         }
@@ -56,12 +63,27 @@ const BodegaForm = ({
         type="text"
         defaultValue={initialData?.nombre ?? ""}
       />
+       <Input
+        isRequired
+        label="Descripción de la bodega"
+        labelPlacement="outside"
+        name="descripcion"
+        placeholder="Ingrese la descripción"
+        type="text"
+        defaultValue={initialData?.descripcion ?? ""}
+      />
       <Select
         isRequired
         labelPlacement="outside"
         label="Ciudad"
         name="locationId"
-        defaultSelectedKeys={initialData?.locacionId?.toString() ?? ""}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (onChangeCiudad) {
+            onChangeCiudad(Number(value));
+          }
+        }}
+        defaultSelectedKeys={initialData?.locacionId ? [initialData.locacionId.toString()] : []}
         placeholder="Seleccione una opción"
       >
         {cities.map((city) => (
@@ -73,8 +95,16 @@ const BodegaForm = ({
         isRequired
         labelPlacement="outside"
         name="centroFormacionId"
-        defaultSelectedKeys={initialData?.centroFormacionId?.toString() ?? ""}
+        defaultSelectedKeys={
+          initialData?.centroFormacionId ? [initialData.centroFormacionId.toString()] : []
+        }
         placeholder="Seleccione una opción"
+        onChange={(e) => {
+          const value = e.target.value;
+          if (onChangeCentro) {
+            onChangeCentro(Number(value));
+          }
+        }}
       >
         {centros.map((centro) => (
           <SelectItem key={centro.id}>{centro.nombre}</SelectItem>
@@ -89,6 +119,12 @@ const BodegaForm = ({
           initialData?.sedeId ? [initialData.sedeId.toString()] : []
         }
         placeholder="Seleccione una sede"
+        onChange={(e) => {
+          const value = e.target.value;
+          if (onChangeSede) {
+            onChangeSede(Number(value));
+          }
+        }}
       >
         {sedes?.map((sede) => (
           <SelectItem key={sede.id}>{sede.nombre}</SelectItem>

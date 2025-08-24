@@ -24,11 +24,9 @@ export type SaveMaterial = {
   id?: number;
   nombre: string;
   stok: number;
-  fecha_creacion: Date;
-  fecha_actualizacion: Date;
   numero_contrato: string;
-  fecha_vencimiento: Date;
-  fecha_vigencia: Date;
+  fecha_vencimiento?: Date;
+  fecha_vigencia?: Date;
   codigo_sena: string;
   codigo_unspsc: string;
   tipo: string;

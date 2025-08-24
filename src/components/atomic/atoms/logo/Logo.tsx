@@ -15,7 +15,7 @@ const Logo = ({ size = 24, highlight = true, onClick }: LogoProps) => {
             tabIndex={onClick ? 0 : undefined}
             role={onClick ? "button" : undefined}
         >
-            Stok
+            Stock
             {highlight ? (
                 <span className="logo__highlight">Pilot</span>
             ) : (
