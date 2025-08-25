@@ -4,3 +4,6 @@ import { apiClient } from "@/utils/api-client.util";
 export const findAllTipoMovimientoApi = async (): Promise<TipoMovimiento[]> => {
   return apiClient("/tipo-movimiento", { method: "GET" });
 };
+
+
+

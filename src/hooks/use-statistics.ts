@@ -1,11 +1,31 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Statistics } from "../models/statistics";
-import { statisticsApi } from "../services/statistics.service";
+import { MovimientoSerie, Statistics } from "../models/statistics";
+import { StatisticsApi, statisticsApi } from "../services/statistics.service";
 
 export const useStatistics = (): UseQueryResult<Statistics, Error> => {
-  return useQuery<Statistics, Error>({
-    queryKey: ['statistics '],
+  return useQuery<StatisticsApi, Error, Statistics>({
+    queryKey: ['statistics'],
     queryFn: () => statisticsApi(),
-    retry: 3
+    select: (apiData: StatisticsApi) => {
+      const entradas = new MovimientoSerie("Entradas", (apiData.movimientosAnioActual ?? []).map(mov => ({
+        key: mov.nombreMes,
+        value: mov.entradas,
+      })));
+      const salidas = new MovimientoSerie("Salidas", (apiData.movimientosAnioActual ?? []).map(mov => ({
+        key: mov.nombreMes,
+        value: mov.salidas,
+      })));
+      return {
+      materiales: apiData.materiales,
+      proximosAVencer: apiData.proximosAVencer,
+      reabastecimientos: apiData.reabastecimientos,
+      movimientosHoy: apiData.movimientosHoy,
+      movimientoDatasets: [
+        entradas,
+        salidas
+      ],
+    }
+    },
+    retry: 3,
   });
-}
+};
