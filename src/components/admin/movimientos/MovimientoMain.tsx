@@ -66,7 +66,7 @@ const MovimientoMain: React.FC<MovimientoMainProps> = () => {
         <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
             <Card className="p-0 overflow-hidden shadow-sm">
                 <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
-                    <h2 className="text-lg font-medium text-gray-800">Movimientos</h2>
+                    <h2 className="text-lg font-medium text-gray-800">Gestionar Movimiento</h2>
                     <Button
                         onPress={() => {
                             setAction(Action.ADD);
