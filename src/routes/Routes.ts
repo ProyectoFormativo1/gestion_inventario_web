@@ -12,6 +12,7 @@ export const routes = {
   cargos: "/cargos",
   roles: "/roles",
   ciudades: "/ciudad",
+  categorias: "/categoria",
   estadisticas: "/estadisticas",
   fichas: "/fichas",
   usuarios: "/usuarios",

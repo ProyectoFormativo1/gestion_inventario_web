@@ -22,6 +22,7 @@ import CiudadPage from "@/pages/admin/CiudadPage";
 import RolPage from "@/pages/admin/RolPage";
 import CargoPage from "@/pages/admin/CargoPage";
 import EstadisticasPage from "@/pages/admin/EstadisticasPage";
+import CategoriaPage from "@/pages/admin/CategoriaPage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -71,6 +72,15 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute
               component={CiudadPage}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
+        <Route
+          path={routes.categorias}
+          element={
+            <ProtectedRoute
+              component={CategoriaPage}
               isAuthenticated={isAuthenticated}
             />
           }

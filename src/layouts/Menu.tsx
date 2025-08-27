@@ -86,6 +86,12 @@ export const adminMenu: MenuItem[] = [
     icon: <PackageSearch className="h-6 w-6" />,
   },
   {
+    code: "CATEGORIAS",
+    title: "categoria",
+    path: routes.categorias,
+    icon: <PackageSearch className="h-6 w-6" />,
+  },
+  {
     code: "ESTADISTICAS",
     title: "Estadisticas",
     path: routes.estadisticas,
