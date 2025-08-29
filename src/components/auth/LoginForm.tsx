@@ -2,27 +2,34 @@ import { useEffect, useState } from "react";
 import { useAuth, useLogin } from "../../hooks/use-auth";
 import { AuthLogin } from "../../models/auth";
 import { Card, CardBody } from "@heroui/card";
-import {Form} from "@heroui/form";
+import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import {Alert} from "@heroui/alert";
+import { Alert } from "@heroui/alert";
 
 const LoginForm = () => {
   const [action, setAction] = useState("");
-  const [loginRequest, setLoginRequest] = useState<AuthLogin | null>(null);
   const { onLoginSuccess } = useAuth();
-  const { isLoading, isSuccess, data, error } = useLogin(loginRequest);
+  const { login, error } = useLogin();
+  const [isLoading, setLoading] = useState(false);
 
   const onLogin = async (request: AuthLogin) => {
-    setLoginRequest(null);
-    setTimeout(() => setLoginRequest(request), 100)
-  };
-
-  useEffect(() => {
-    if (isSuccess && data) {
-      onLoginSuccess(data.user, data.token);
+    try {
+      setLoading(true);
+      const result = await login(request);
+      if (result && result.user && result.token) {
+        onLoginSuccess(result.user, result.token);
+      } else {
+        console.error("❌ Login fallido: respuesta incompleta", result);
+        // podrías mostrar un error en el estado si quieres
+      }
+    } catch (err) {
+      console.error("❌ Error en login:", err);
+      // el estado isError ya se está usando para mostrar alerta
+    } finally {
+      setLoading(false);
     }
-  }, [isSuccess, data]);
+  };
 
   return (
     <Card
@@ -44,7 +51,9 @@ const LoginForm = () => {
           }}
         >
           <h1 className="text-center w-full text-white">Bienvenido</h1>
-          <h2 className="text-center w-full text-white">Ingresa tus credenciales para continuar </h2>
+          <h2 className="text-center w-full text-white">
+            Ingresa tus credenciales para continuar{" "}
+          </h2>
 
           <label htmlFor=""></label>
           <Input

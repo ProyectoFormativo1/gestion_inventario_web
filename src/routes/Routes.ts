@@ -17,5 +17,7 @@ export const routes = {
   fichas: "/fichas",
   usuarios: "/usuarios",
   movimientos: "/movimientos",
+  unauthorized: "/403",
+  permisos: "/permisos/:id",
   root: "..",
 };

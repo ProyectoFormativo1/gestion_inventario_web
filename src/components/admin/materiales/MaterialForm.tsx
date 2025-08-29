@@ -1,17 +1,19 @@
-
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 import { Material, SaveMaterial } from "@/types/material";
 import { Action } from "@/models/action";
+import { Categoria } from "@/types/categoria";
+import { useState } from "react";
 
 interface MaterialFormProps {
   onSave?: (item: SaveMaterial) => void;
   onCancel?: () => void;
   actionType?: Action;
   initialData?: Material;
-  unidadesMedida: { id: number; nombre: string, simbolo: string }[];
+  unidadesMedida: { id: number; nombre: string; simbolo: string }[];
+  categorias: Categoria[];
   bodegaId: number;
 }
 
@@ -21,8 +23,11 @@ const MaterialForm = ({
   actionType,
   initialData,
   unidadesMedida,
-  bodegaId
+  categorias,
+  bodegaId,
 }: MaterialFormProps) => {
+  const [codigoUnspsc, setCodigoUnspsc] = useState(initialData?.codigo_unspsc ?? "");
+
   return (
     <Form
       className="w-full mx-auto flex flex-col gap-4"
@@ -36,13 +41,18 @@ const MaterialForm = ({
             nombre: data.nombre as string,
             stok: Number(data.stok),
             numero_contrato: data.numero_contrato as string,
-            fecha_vencimiento: data.fecha_vencimiento ? new Date(data.fecha_vencimiento as string) : undefined,
-            fecha_vigencia: data.fecha_vigencia ? new Date(data.fecha_vigencia as string) : undefined,
+            fecha_vencimiento: data.fecha_vencimiento
+              ? new Date(data.fecha_vencimiento as string)
+              : undefined,
+            fecha_vigencia: data.fecha_vigencia
+              ? new Date(data.fecha_vigencia as string)
+              : undefined,
             codigo_sena: data.codigo_sena as string,
-            codigo_unspsc: data.codigo_unspsc as string,
+            codigo_unspsc: codigoUnspsc, // ✅ usamos el valor del estado
             tipo: data.tipo as string,
             bodega_id: Number(initialData?.bodega_id ?? bodegaId),
             unidad_medida_id: Number(data.unidad_medida_id),
+            categoria_id: Number(data.categoria_id),
           });
         }
       }}
@@ -54,6 +64,7 @@ const MaterialForm = ({
         placeholder="Ingrese nombre del material"
         defaultValue={initialData?.nombre ?? ""}
       />
+
       <Input
         isRequired
         label="Stock"
@@ -62,6 +73,7 @@ const MaterialForm = ({
         placeholder="Ingrese cantidad"
         defaultValue={initialData?.stok?.toString() ?? ""}
       />
+
       <Select
         isRequired
         label="Unidad de Medida"
@@ -72,6 +84,25 @@ const MaterialForm = ({
           <SelectItem key={unidad.id}>{unidad.nombre}</SelectItem>
         ))}
       </Select>
+
+      <Select
+        isRequired
+        label="Categoría"
+        name="categoria_id"
+        defaultSelectedKeys={initialData?.categoria_id ? [initialData.categoria_id.toString()] : []}
+        onChange={(e) => {
+          const categoriaId = Number(e.target.value);
+          const categoria = categorias.find((c) => c.id === categoriaId);
+          if (categoria) {
+            setCodigoUnspsc(categoria.codigoUnspsc ?? ""); 
+          }
+        }}
+      >
+        {categorias.map((categoria) => (
+          <SelectItem key={categoria.id}>{categoria.nombre}</SelectItem>
+        ))}
+      </Select>
+
       <Input
         isRequired
         label="Número de contrato"
@@ -90,6 +121,7 @@ const MaterialForm = ({
             : ""
         }
       />
+
       <Input
         label="Fecha de vigencia"
         name="fecha_vigencia"
@@ -100,6 +132,7 @@ const MaterialForm = ({
             : ""
         }
       />
+
       <Input
         isRequired
         label="Código SENA"
@@ -109,12 +142,14 @@ const MaterialForm = ({
       />
 
       <Input
+        isDisabled
         isRequired
         label="Código UNSPSC"
         name="codigo_unspsc"
-        placeholder="Ingrese código UNSPSC"
-        defaultValue={initialData?.codigo_unspsc ?? ""}
+        value={codigoUnspsc} 
+        onChange={(e) => setCodigoUnspsc(e.target.value)} // opcional, si quieres que sea editable
       />
+
       <Select
         isRequired
         label="Tipo"
@@ -125,7 +160,6 @@ const MaterialForm = ({
           <SelectItem key={unidad.id}>{unidad.nombre}</SelectItem>
         ))}
       </Select>
-      
 
       <div className="flex justify-end w-full">
         <Button color="default" onPress={onCancel} className="w-40 mr-2">

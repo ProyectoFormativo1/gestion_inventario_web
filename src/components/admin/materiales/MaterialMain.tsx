@@ -12,6 +12,9 @@ import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useCategorias } from "@/hooks/use-categoria";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 
 interface MaterialesMainProps {}
 
@@ -20,11 +23,19 @@ const MaterialesMain: React.FC<MaterialesMainProps> = () => {
   const { id } = useParams<{ id: string }>(); //Id de bodega seleccionada
 
   const [action, setAction] = useState<Action>(Action.ADD);
-  const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
-  const [materialToDelete, setMaterialToDelete] = useState<Material | null>(null);
+  const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(
+    null
+  );
+  const [materialToDelete, setMaterialToDelete] = useState<Material | null>(
+    null
+  );
 
-  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
-  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
+  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
+  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
 
   // Hooks para CRUD y data
   const {
@@ -35,7 +46,9 @@ const MaterialesMain: React.FC<MaterialesMainProps> = () => {
     deleteMaterial,
   } = useMaterial(Number(id));
 
-  const { data: unidadesMedida, isLoading: unidadesLoading } = useUnidadMedida();
+  const { data: unidadesMedida, isLoading: unidadesLoading } =
+    useUnidadMedida();
+  const { data: categorias, isLoading: categoriasLoading } = useCategorias();
 
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
@@ -56,28 +69,33 @@ const MaterialesMain: React.FC<MaterialesMainProps> = () => {
             Volver
           </Button>
           <h2 className="text-lg font-medium text-gray-800">Materiales</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nuevo
-          </Button>
+          <Permission permiso={Permisos.MATERIALES_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nuevo
+            </Button>
+          </Permission>
         </div>
 
         <Modal
           ref={dialogFormRef}
           content={
             <MaterialForm
+              categorias={categorias ?? []}
               bodegaId={id ? parseInt(id, 10) : 0}
               unidadesMedida={unidadesMedida ?? []}
               initialData={selectedMaterial ?? undefined}
               onCancel={closeModal}
               onSave={(item: SaveMaterial) => {
-                action === Action.EDIT ? updateMaterial(item) : createMaterial(item);
+                action === Action.EDIT
+                  ? updateMaterial(item)
+                  : createMaterial(item);
                 closeModal();
               }}
               actionType={action}
@@ -86,8 +104,9 @@ const MaterialesMain: React.FC<MaterialesMainProps> = () => {
           title={action === Action.ADD ? "Agregar Material" : "Editar Material"}
         />
 
-        {(materialesLoading || unidadesLoading) && <Loading />}
-
+        {(materialesLoading || unidadesLoading || categoriasLoading) && (
+          <Loading />
+        )}
         <MaterialList
           items={materiales ?? []}
           onEdit={(item) => {

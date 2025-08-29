@@ -1,4 +1,3 @@
-
 export class User {
     constructor(
         public id: number,
@@ -6,8 +5,9 @@ export class User {
         public apellidos: string,
         public correo: string,
         public cargoId: number,
-        public roleId: number
+        public roleId: number,
+        public rolNombre: string,
+        public cargoNombre: string,
+        public permisos: string[],
     ){}
 }
-
-

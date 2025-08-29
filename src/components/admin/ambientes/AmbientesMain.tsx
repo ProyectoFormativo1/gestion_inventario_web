@@ -15,6 +15,8 @@ import { Button } from "@heroui/button";
 import { useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
 import { useSedesByCentros } from "@/hooks/use-sede";
 import { useAreasBySedes } from "@/hooks/use-area";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 interface AmbientesMainProps { }
 
 const AmbientesMain: React.FC<AmbientesMainProps> = () => {
@@ -66,16 +68,18 @@ const AmbientesMain: React.FC<AmbientesMainProps> = () => {
           <h2 className="text-lg font-medium text-gray-800">
             Ambientes de Formación
           </h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nuevo
-          </Button>
+          <Permission permiso={Permisos.AMBIENTES_CREAR}>
+                      <Button
+                        onPress={() => {
+                          setAction(Action.ADD);
+                          openModal();
+                        }}
+                        color="primary"
+                        className="w-40"
+                      >
+                        Agregar Nuevo
+                      </Button>
+                    </Permission>
         </div>
 
         {/* Modal para agregar/editar */}

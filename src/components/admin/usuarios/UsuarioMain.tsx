@@ -11,6 +11,8 @@ import { useRol } from "@/hooks/use-rol";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
+import { Permisos } from "@/models/permisos";
+import { Permission } from "@/components/auth/Permission";
 
 interface UsuariosMainProps {}
 
@@ -19,8 +21,12 @@ const UsuariosMain: React.FC<UsuariosMainProps> = () => {
   const [selectedUsuario, setSelectedUsuario] = useState<Usuario | null>(null);
   const [usuarioToDelete, setUsuarioToDelete] = useState<Usuario | null>(null);
 
-  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
-  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
+  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
+  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
 
   // Hooks para CRUD y data
   const {
@@ -45,16 +51,18 @@ const UsuariosMain: React.FC<UsuariosMainProps> = () => {
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-800">Usuarios</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nuevo
-          </Button>
+          <Permission permiso={Permisos.USUARIOS_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nuevo
+            </Button>
+          </Permission>
         </div>
 
         <Modal
@@ -66,7 +74,9 @@ const UsuariosMain: React.FC<UsuariosMainProps> = () => {
               initialData={selectedUsuario ?? undefined}
               onCancel={closeModal}
               onSave={(item: SaveUsuario) => {
-                action === Action.EDIT ? updateUsuario(item) : createUsuario(item);
+                action === Action.EDIT
+                  ? updateUsuario(item)
+                  : createUsuario(item);
                 closeModal();
               }}
               actionType={action}

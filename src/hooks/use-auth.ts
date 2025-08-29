@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/auth-context";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { loginApi, LoginResponseDto } from "../services/auth.service";
-import { AuthLogin } from "../models/auth";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { AuthLogin } from "@/models/auth";
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -12,6 +12,20 @@ export const useAuth = () => {
   return context;
 };
 
+export function useLogin() {
+  const mutation = useMutation<LoginResponseDto, Error, AuthLogin>({
+    mutationFn: loginApi,
+  });
+
+  return {
+    login: mutation.mutateAsync, // devuelve Promise<LoginResponseDto>
+    ...mutation, // opcional: expone isLoading, isError, etc.
+  };
+}
+
+/* 
+
+
 export const useLogin = (request: AuthLogin|null): UseQueryResult<LoginResponseDto, Error> => {
   return useQuery<LoginResponseDto, Error>({
     queryKey: ['login', request],
@@ -19,4 +33,4 @@ export const useLogin = (request: AuthLogin|null): UseQueryResult<LoginResponseD
     retry: 0,
     enabled: !!request, // Solo habilita la consulta si request no es null
   });
-}
+} */

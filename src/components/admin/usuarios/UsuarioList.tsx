@@ -1,7 +1,9 @@
-import GlobalTable, { Column } from '@/components/atomic/organisms/Table';
-import { Usuario } from '@/types/usuario';
-import { Button } from '@heroui/button';
-import React from 'react';
+import GlobalTable, { Column } from "@/components/atomic/organisms/Table";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
+import { Usuario } from "@/types/usuario";
+import { Button } from "@heroui/button";
+import React from "react";
 
 interface UsuarioListProps {
   items: Usuario[];
@@ -9,31 +11,48 @@ interface UsuarioListProps {
   onDelete?: (item: Usuario) => void;
 }
 
-const UsuarioList: React.FC<UsuarioListProps> = ({ items, onEdit, onDelete }) => {
+const UsuarioList: React.FC<UsuarioListProps> = ({
+  items,
+  onEdit,
+  onDelete,
+}) => {
   const columns: Column<Usuario>[] = [
-    { key: 'id', label: 'ID', sortable: true, filterable: true },
-    { key: 'nombres', label: 'Nombres', sortable: true, filterable: true },
-    { key: 'apellidos', label: 'Apellidos', sortable: true, filterable: true },
-    { key: 'correo', label: 'Correo', sortable: true, filterable: true },
-    { key: 'cargoNombre', label: 'Cargo', sortable: true, filterable: true },
-    { key: 'rolNombre', label: 'Rol', sortable: true, filterable: true },
-    { key: 'fechaCreacion', label: 'Fecha Creación', sortable: true, filterable: true },
+    { key: "id", label: "ID", sortable: true, filterable: true },
+    { key: "nombres", label: "Nombres", sortable: true, filterable: true },
+    { key: "apellidos", label: "Apellidos", sortable: true, filterable: true },
+    { key: "correo", label: "Correo", sortable: true, filterable: true },
+    { key: "cargoNombre", label: "Cargo", sortable: true, filterable: true },
+    { key: "rolNombre", label: "Rol", sortable: true, filterable: true },
     {
-      key: 'acciones',
-      label: 'Acciones',
+      key: "fechaCreacion",
+      label: "Fecha Creación",
+      sortable: true,
+      filterable: true,
+    },
+    {
+      key: "acciones",
+      label: "Acciones",
       render: (item) => (
         <div className="flex space-x-2">
-          <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>Editar</Button>
-          <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>Eliminar</Button>
+          <Permission permiso={Permisos.USUARIOS_EDITAR}>
+            <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>
+              Editar
+            </Button>
+          </Permission>
+          <Permission permiso={Permisos.USUARIOS_ELIMINAR}>
+            <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>
+              Eliminar
+            </Button>
+          </Permission>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   return (
     <GlobalTable
       columns={columns}
-      data={items.map(u => ({ ...u, key: u.id }))}
+      data={items.map((u) => ({ ...u, key: u.id }))}
       rowsPerPage={5}
       defaultSortColumn="id"
     />

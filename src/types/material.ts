@@ -17,6 +17,7 @@ export type Material = {
   unidad_medida_id: number;
   bodegaNombre?: string;
   unidadMedidaNombre?: string;
+  categoria_id?: number;
 } & Base;
 
 // Modelo para crear/editar Material
@@ -32,4 +33,5 @@ export type SaveMaterial = {
   tipo: string;
   bodega_id: number;
   unidad_medida_id: number;
+  categoria_id?: number;
 };

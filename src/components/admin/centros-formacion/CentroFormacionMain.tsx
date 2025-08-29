@@ -10,6 +10,8 @@ import { useLocacion } from "@/hooks/use-locacion";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 
 interface CentrosFormacionMainProps {}
 
@@ -51,16 +53,18 @@ const CentrosFormacionMain: React.FC<CentrosFormacionMainProps> = ({}) => {
           <h2 className="text-lg font-medium text-gray-800">
             Centros de Formación
           </h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nuevo
-          </Button>
+          <Permission permiso={Permisos.CENTRO_FORMACION_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nuevo
+            </Button>
+          </Permission>
         </div>
 
         <Modal

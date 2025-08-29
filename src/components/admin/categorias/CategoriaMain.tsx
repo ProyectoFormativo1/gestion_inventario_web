@@ -8,7 +8,9 @@ import Alert from "@/components/atomic/molecules/Alert";
 import Modal from "@/components/atomic/molecules/Modal";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
-import Loading from "@/components/atomic/atoms/Loading"; 
+import Loading from "@/components/atomic/atoms/Loading";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 
 interface CategoriasMainProps {}
 
@@ -28,13 +30,8 @@ const CategoriasMain: React.FC<CategoriasMainProps> = ({}) => {
     null
   );
 
-  const {
-    data,
-    isLoading,
-    createCategoria,
-    updateCategoria,
-    deleteCategoria,
-  } = useCategorias();
+  const { data, isLoading, createCategoria, updateCategoria, deleteCategoria } =
+    useCategorias();
 
   const openModal = () => dialogFormRef?.current?.onOpen();
   const closeModal = () => {
@@ -47,16 +44,18 @@ const CategoriasMain: React.FC<CategoriasMainProps> = ({}) => {
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-800">Categorías</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nuevo
-          </Button>
+          <Permission permiso={Permisos.CATEGORIA_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nuevo
+            </Button>
+          </Permission>
         </div>
 
         {/* Modal de Formulario */}
@@ -74,7 +73,9 @@ const CategoriasMain: React.FC<CategoriasMainProps> = ({}) => {
               }}
             />
           }
-          title={action === Action.ADD ? "Agregar Categoría" : "Editar Categoría"}
+          title={
+            action === Action.ADD ? "Agregar Categoría" : "Editar Categoría"
+          }
         ></Modal>
 
         {isLoading && <Loading />}

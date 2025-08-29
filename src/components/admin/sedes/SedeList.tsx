@@ -1,6 +1,8 @@
 
 import GlobalTable, { Column } from '@/components/atomic/organisms/Table';
+import { Permission } from '@/components/auth/Permission';
 import { Sede } from '@/types/sede';
+import { Permisos } from '@/models/permisos';
 import { Button } from '@heroui/button';
 import React from 'react';
 
@@ -21,9 +23,12 @@ const SedeList: React.FC<SedeListProps> = ({ onEdit, onDelete, items }) => {
       label: 'Acciones',
       render: (item) => (
         <div className="flex space-x-2">
-          <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>Editar</Button>
-          <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>Eliminar</Button>
-        </div>
+<Permission permiso={Permisos.SEDES_LISTA}>
+            <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>Editar</Button>
+          </Permission>
+          <Permission permiso={Permisos.SEDES_ELIMINAR}>
+            <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>Eliminar</Button>
+          </Permission>        </div>
       )
     }
   ];

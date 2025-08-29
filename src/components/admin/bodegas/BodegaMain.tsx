@@ -14,38 +14,44 @@ import { useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
 import { useLocacion } from "@/hooks/use-locacion";
 import { useSedesByCentros } from "@/hooks/use-sede";
 import BodegaFilter from "./BodegaFilter";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 
-interface BodegasMainProps { }
+interface BodegasMainProps {}
 
 const BodegasMain: React.FC<BodegasMainProps> = () => {
   const [action, setAction] = useState<Action>(Action.ADD);
   const [selectedBodega, setSelectedBodega] = useState<Bodega | null>(null);
   const [bodegaToDelete, setBodegaToDelete] = useState<Bodega | null>(null);
 
-  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
-  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
+  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
+  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
 
   // Hook para CRUD de bodegas
-  const [sedeTableSelectedId, setSelectedSedeTableId] = useState<number | null>(null);
+  const [sedeTableSelectedId, setSelectedSedeTableId] = useState<number | null>(
+    null
+  );
 
-  const {
-    createBodega,
-    updateBodega,
-    deleteBodega,
-  } = useBodegas(sedeTableSelectedId);
+  const { createBodega, updateBodega, deleteBodega } =
+    useBodegas(sedeTableSelectedId);
 
-  const {
-    data: bodegasBySede,
-    isLoading: bodegasLoading
-  } = useBodegasBySede(sedeTableSelectedId);
+  const { data: bodegasBySede, isLoading: bodegasLoading } =
+    useBodegasBySede(sedeTableSelectedId);
 
   //Listas
-  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(
+    null
+  );
   const [centroSelectedId, setSelectedCentroId] = useState<number | null>(null);
   const [sedeSelectedId, setSelectedSedeId] = useState<number | null>(null);
 
   const { ciudades } = useLocacion();
-  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+  const { data: centrosBylocacion } =
+    useCentrosFormacionByLocacion(locacionSelectedId);
   const { data: sedesByCentros } = useSedesByCentros(centroSelectedId);
   const { data: areasBySedes } = useAreasBySedes(sedeSelectedId);
 
@@ -64,16 +70,18 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-800">Bodegas</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nueva
-          </Button>
+          <Permission permiso={Permisos.BODEGA_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nuevo
+            </Button>
+          </Permission>
         </div>
 
         <Modal
@@ -87,7 +95,9 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
               initialData={selectedBodega ?? undefined}
               onCancel={closeModal}
               onSave={(item: SaveBodega) => {
-                action === Action.EDIT ? updateBodega(item) : createBodega(item);
+                action === Action.EDIT
+                  ? updateBodega(item)
+                  : createBodega(item);
                 closeModal();
               }}
               onChangeCentro={(centroId) => {
@@ -108,7 +118,7 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
           title={action === Action.ADD ? "Agregar Bodega" : "Editar Bodega"}
         />
 
-        {(bodegasLoading) && <Loading />}
+        {bodegasLoading && <Loading />}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full p-2">
           <BodegaFilter
@@ -118,7 +128,6 @@ const BodegasMain: React.FC<BodegasMainProps> = () => {
             cities={ciudades ?? []}
           />
         </div>
-
 
         <BodegaList
           items={bodegasBySede ?? []}

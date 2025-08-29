@@ -1,4 +1,6 @@
 import GlobalTable, { Column } from "@/components/atomic/organisms/Table";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 import { Ficha } from "@/types/ficha";
 import { Button } from "@heroui/button";
 import React from "react";
@@ -13,21 +15,40 @@ const FichaList: React.FC<FichaListProps> = ({ onEdit, onDelete, items }) => {
   const columns: Column<Ficha>[] = [
     { key: "id", label: "ID", sortable: true, filterable: true },
     { key: "codigo", label: "Código", sortable: true, filterable: true },
-    { key: "fechaCreacion", label: "Fecha de Creación", sortable: true, filterable: true },
-    { key: "programaNombre", label: "Programa", sortable: true, filterable: true },
-    { key: "ambienteNombre", label: "Ambiente", sortable: true, filterable: true },
+    {
+      key: "fechaCreacion",
+      label: "Fecha de Creación",
+      sortable: true,
+      filterable: true,
+    },
+    {
+      key: "programaNombre",
+      label: "Programa",
+      sortable: true,
+      filterable: true,
+    },
+    {
+      key: "ambienteNombre",
+      label: "Ambiente",
+      sortable: true,
+      filterable: true,
+    },
 
     {
       key: "acciones",
       label: "Acciones",
       render: (item) => (
         <div className="flex space-x-2">
-          <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>
-            Editar
-          </Button>
-          <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>
-            Eliminar
-          </Button>
+          <Permission permiso={Permisos.FICHAS_EDITAR}>
+            <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>
+              Editar
+            </Button>
+          </Permission>
+          <Permission permiso={Permisos.FICHAS_ELIMINAR}>
+            <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>
+              Eliminar
+            </Button>
+          </Permission>
         </div>
       ),
     },

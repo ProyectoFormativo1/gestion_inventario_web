@@ -9,6 +9,8 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 
 interface RolMainProps {}
 
@@ -17,8 +19,12 @@ const RolMain: React.FC<RolMainProps> = () => {
   const [selectedRol, setSelectedRol] = useState<Rol | null>(null);
   const [rolToDelete, setRolToDelete] = useState<Rol | null>(null);
 
-  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
-  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(null);
+  const alertDeleteRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
+  const dialogFormRef = useRef<{ onOpen: () => void; onClose: () => void }>(
+    null
+  );
 
   const { data: roles, isLoading, createRol, updateRol, deleteRol } = useRol();
 
@@ -27,22 +33,24 @@ const RolMain: React.FC<RolMainProps> = () => {
     dialogFormRef?.current?.onClose();
     setSelectedRol(null);
   };
-3
+  3;
   return (
     <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-800">Roles</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nuevo
-          </Button>
+          <Permission permiso={Permisos.ROLES_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nuevo
+            </Button>
+          </Permission>
         </div>
 
         <Modal

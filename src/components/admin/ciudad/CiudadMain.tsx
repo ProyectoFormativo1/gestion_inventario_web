@@ -9,8 +9,10 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 
-interface CiudadesMainProps {}
+interface CiudadesMainProps { }
 
 const CiudadesMain: React.FC<CiudadesMainProps> = () => {
   const [action, setAction] = useState<Action>(Action.ADD);
@@ -40,16 +42,19 @@ const CiudadesMain: React.FC<CiudadesMainProps> = () => {
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-800">Ciudades</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nueva
-          </Button>
+          <Permission permiso={Permisos.CIUDAD_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nueva
+            </Button>
+          </Permission>
+
         </div>
 
         <Modal
@@ -70,7 +75,6 @@ const CiudadesMain: React.FC<CiudadesMainProps> = () => {
         />
 
         {isLoading && <Loading />}
-
         <CiudadList
           items={ciudades ?? []}
           onEdit={(item) => {

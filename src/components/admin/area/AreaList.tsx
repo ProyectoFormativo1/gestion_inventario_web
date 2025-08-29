@@ -1,4 +1,6 @@
 import GlobalTable, { Column } from "@/components/atomic/organisms/Table";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 import { Area } from "@/types/area";
 import { Button } from "@heroui/button";
 import React from "react";
@@ -19,12 +21,16 @@ const AreaList: React.FC<AreaListProps> = ({ onEdit, onDelete, items }) => {
       label: "Acciones",
       render: (item) => (
         <div className="flex space-x-2">
-          <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>
-            Editar
-          </Button>
-          <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>
-            Eliminar
-          </Button>
+          <Permission permiso={Permisos.AREAS_EDITAR}>
+            <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>
+              Editar
+            </Button>
+          </Permission>
+          <Permission permiso={Permisos.AREAS_ELIMINAR}>
+            <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>
+              Eliminar
+            </Button>
+          </Permission>
         </div>
       ),
     },

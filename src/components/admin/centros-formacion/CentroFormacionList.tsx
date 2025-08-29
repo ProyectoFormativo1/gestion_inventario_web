@@ -1,5 +1,7 @@
 
 import GlobalTable, { Column } from '@/components/atomic/organisms/Table';
+import { Permission } from '@/components/auth/Permission';
+import { Permisos } from '@/models/permisos';
 import { CentroFormacion } from '@/types/centro-formacion';
 import { Button } from '@heroui/button';
 import React from 'react';
@@ -21,8 +23,12 @@ const CentroFormacionList: React.FC<CentroFormacionListProps> = ({ onEdit, onDel
       label: 'Acciones',
       render: (item) => (
         <div className="flex space-x-2">
-          <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>Editar</Button>
-          <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>Eliminar</Button>
+          <Permission permiso={Permisos.CENTRO_FORMACION_EDITAR}>
+            <Button color="primary" size="sm" onPress={() => onEdit?.(item)}>Editar</Button>
+          </Permission>
+          <Permission permiso={Permisos.CENTRO_FORMACION_ELIMINAR}>
+            <Button color="danger" size="sm" onPress={() => onDelete?.(item)}>Eliminar</Button>
+          </Permission>
         </div>
       )
     }

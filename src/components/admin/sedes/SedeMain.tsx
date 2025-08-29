@@ -11,6 +11,8 @@ import Loading from "@/components/atomic/atoms/Loading";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { useLocacion } from "@/hooks/use-locacion";
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
 
 interface SedeMainProps {}
 
@@ -29,10 +31,13 @@ const SedeMain: React.FC<SedeMainProps> = ({}) => {
   const { data, isLoading, createSede, updateSede, deleteSede } = useSede();
 
   //Listas
-  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(
+    null
+  );
 
   const { ciudades } = useLocacion();
-  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+  const { data: centrosBylocacion } =
+    useCentrosFormacionByLocacion(locacionSelectedId);
 
   //Modal
   const openModal = () => dialogFormRef?.current?.onOpen();
@@ -45,23 +50,25 @@ const SedeMain: React.FC<SedeMainProps> = ({}) => {
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-800">Sedes</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              dialogFormRef?.current?.onOpen();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nuevo
-          </Button>
+          <Permission permiso={Permisos.SEDES_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nueva
+            </Button>
+          </Permission>
         </div>
 
         <Modal
           ref={dialogFormRef}
           content={
             <SedeForm
-              cities={ciudades ?? []} 
+              cities={ciudades ?? []}
               centros={centrosBylocacion ?? []}
               initialData={selectedSede ?? undefined}
               onChangeCiudad={(ciudadId) => {
@@ -72,7 +79,6 @@ const SedeMain: React.FC<SedeMainProps> = ({}) => {
                 action === Action.EDIT ? updateSede(item) : createSede(item);
                 closeModal();
               }}
-              
             />
           }
           title={action === Action.ADD ? "Agregar Sede" : "Editar Sede"}

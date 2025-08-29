@@ -12,9 +12,11 @@ import { Button } from "@heroui/button";
 import { useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
 import { useLocacion } from "@/hooks/use-locacion";
 import { useSedesByCentros } from "@/hooks/use-sede";
-interface AreasMainProps { }
+import { Permission } from "@/components/auth/Permission";
+import { Permisos } from "@/models/permisos";
+interface AreasMainProps {}
 
-const AreasMain: React.FC<AreasMainProps> = ({ }) => {
+const AreasMain: React.FC<AreasMainProps> = ({}) => {
   const [action, setAction] = useState<Action>(Action.ADD);
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   const [areaToDelete, setAreaToDelete] = useState<Area | null>(null);
@@ -27,11 +29,14 @@ const AreasMain: React.FC<AreasMainProps> = ({ }) => {
   );
 
   //Listas
-  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(
+    null
+  );
   const [centroSelectedId, setSelectedCentroId] = useState<number | null>(null);
 
   const { ciudades } = useLocacion();
-  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+  const { data: centrosBylocacion } =
+    useCentrosFormacionByLocacion(locacionSelectedId);
   const { data: sedesByCentros } = useSedesByCentros(centroSelectedId);
 
   //Table
@@ -49,16 +54,18 @@ const AreasMain: React.FC<AreasMainProps> = ({ }) => {
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-800">Áreas</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nueva
-          </Button>
+          <Permission permiso={Permisos.AREAS_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nuevo
+            </Button>
+          </Permission>
         </div>
 
         <Modal

@@ -4,7 +4,7 @@ import LoginPage from "../pages/auth/LoginPage";
 import AuthLayout from "../layouts/AuthLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminLayout from "../layouts/AdminLayout";
-import DashboardPage from "../pages/admin/DashboardPage"; 
+import DashboardPage from "../pages/admin/DashboardPage";
 import RedirectIfAuthenticated from "./RedirectIfAuthenticated";
 import { useAuth } from "../hooks/use-auth";
 import { routes } from "./Routes";
@@ -23,6 +23,9 @@ import RolPage from "@/pages/admin/RolPage";
 import CargoPage from "@/pages/admin/CargoPage";
 import EstadisticasPage from "@/pages/admin/EstadisticasPage";
 import CategoriaPage from "@/pages/admin/CategoriaPage";
+import { Permisos } from "@/models/permisos";
+import UnAuthorized from "@/components/atomic/templates/Unauthorized";
+import PermisosPage from "@/pages/admin/PermisosPage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -46,13 +49,14 @@ const AppRoutes = () => {
             </RedirectIfAuthenticated>
           }
         />
-     
+
       </Route>
       <Route element={<AdminLayout />}>
         <Route
           path={routes.dashboard}
           element={
             <ProtectedRoute
+              permiso={Permisos.ESTADISTICAS_REPORT_VER}
               component={DashboardPage}
               isAuthenticated={isAuthenticated}
             />
@@ -62,6 +66,7 @@ const AppRoutes = () => {
           path={routes.estadisticas}
           element={
             <ProtectedRoute
+              permiso={Permisos.ESTADISTICAS_REPORT_VER}
               component={EstadisticasPage}
               isAuthenticated={isAuthenticated}
             />
@@ -72,6 +77,7 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute
               component={CiudadPage}
+              permiso={Permisos.CIUDAD_LISTA}
               isAuthenticated={isAuthenticated}
             />
           }
@@ -80,6 +86,7 @@ const AppRoutes = () => {
           path={routes.categorias}
           element={
             <ProtectedRoute
+              permiso={Permisos.CATEGORIA_LISTA}
               component={CategoriaPage}
               isAuthenticated={isAuthenticated}
             />
@@ -89,6 +96,7 @@ const AppRoutes = () => {
           path={routes.centroFormacion}
           element={
             <ProtectedRoute
+              permiso={Permisos.CENTRO_FORMACION_LISTA}
               component={CentroFormacionPage}
               isAuthenticated={isAuthenticated}
             />
@@ -98,6 +106,7 @@ const AppRoutes = () => {
           path={routes.sedes}
           element={
             <ProtectedRoute
+              permiso={Permisos.SEDES_LISTA}
               component={SedesPage}
               isAuthenticated={isAuthenticated}
             />
@@ -107,6 +116,7 @@ const AppRoutes = () => {
           path={routes.bodegas}
           element={
             <ProtectedRoute
+              permiso={Permisos.BODEGA_LISTA}
               component={BodegasPage}
               isAuthenticated={isAuthenticated}
             />
@@ -116,6 +126,8 @@ const AppRoutes = () => {
           path={routes.roles}
           element={
             <ProtectedRoute
+              permiso={Permisos.ROLES_LISTA}
+
               component={RolPage}
               isAuthenticated={isAuthenticated}
             />
@@ -125,6 +137,7 @@ const AppRoutes = () => {
           path={routes.cargos}
           element={
             <ProtectedRoute
+              permiso={Permisos.CARGO_LISTA}
               component={CargoPage}
               isAuthenticated={isAuthenticated}
             />
@@ -134,6 +147,7 @@ const AppRoutes = () => {
           path={routes.areas}
           element={
             <ProtectedRoute
+              permiso={Permisos.AREAS_LISTA}
               component={AreasPage}
               isAuthenticated={isAuthenticated}
             />
@@ -143,6 +157,7 @@ const AppRoutes = () => {
           path={routes.ambientes}
           element={
             <ProtectedRoute
+              permiso={Permisos.AMBIENTES_LISTA}
               component={AmbientesPage}
               isAuthenticated={isAuthenticated}
             />
@@ -152,24 +167,27 @@ const AppRoutes = () => {
           path={routes.programas}
           element={
             <ProtectedRoute
+              permiso={Permisos.PROGRAMAS_LISTA}
               component={ProgramasPage}
               isAuthenticated={isAuthenticated}
             />
           }
         />
-         <Route
+        <Route
           path={routes.fichas}
           element={
             <ProtectedRoute
+              permiso={Permisos.FICHAS_LISTA}
               component={FichasPage}
               isAuthenticated={isAuthenticated}
             />
           }
         />
-         <Route
+        <Route
           path={routes.usuarios}
           element={
             <ProtectedRoute
+              permiso={Permisos.USUARIOS_LISTA}
               component={UsuariosPage}
               isAuthenticated={isAuthenticated}
             />
@@ -179,6 +197,7 @@ const AppRoutes = () => {
           path={routes.materiales}
           element={
             <ProtectedRoute
+              permiso={Permisos.MATERIALES_LISTA}
               component={MaterialesPage}
               isAuthenticated={isAuthenticated}
             />
@@ -188,7 +207,26 @@ const AppRoutes = () => {
           path={routes.movimientos}
           element={
             <ProtectedRoute
+              permiso={Permisos.MOVIMIENTOS_LISTA}
               component={MovimientosPage}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
+        <Route
+          path={routes.permisos}
+          element={
+            <ProtectedRoute
+              component={PermisosPage}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
+        <Route
+          path={routes.unauthorized}
+          element={
+            <ProtectedRoute
+              component={UnAuthorized}
               isAuthenticated={isAuthenticated}
             />
           }

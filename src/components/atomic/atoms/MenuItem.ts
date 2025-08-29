@@ -3,5 +3,6 @@ export interface MenuItem{
     title: string,
     path?: string,
     icon?: React.ReactNode,
+    permiso?: string; // 🔑 permiso asociado --- IGNORE ---
     subItems?: MenuItem[]; // Subitems
 }

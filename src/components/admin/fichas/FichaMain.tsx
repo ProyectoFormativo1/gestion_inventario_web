@@ -9,18 +9,20 @@ import Modal from "@/components/atomic/molecules/Modal";
 import Loading from "@/components/atomic/atoms/Loading";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
-import { useCentrosFormacion, useCentrosFormacionByLocacion } from "@/hooks/use-centroformacion";
+import { useCentrosFormacionByLocacion} from "@/hooks/use-centroformacion";
 import { useLocacion } from "@/hooks/use-locacion";
-import { useSede, useSedesByCentros } from "@/hooks/use-sede";
-import { useAreas, useAreasBySedes } from "@/hooks/use-area";
-import { useambientes, useAmbientesByArea } from "@/hooks/use-ambientes";
+import {  useSedesByCentros } from "@/hooks/use-sede";
+import { useAreasBySedes } from "@/hooks/use-area";
+import {  useAmbientesByArea } from "@/hooks/use-ambientes";
 import { useProgramas } from "@/hooks/use-programa";
+import { Permisos } from "@/models/permisos";
+import { Permission } from "@/components/auth/Permission";
 
 interface FichasMainProps {
   programas: { id: number; nombre: string }[];
 }
 
-const FichasMain: React.FC<FichasMainProps> = ({ }) => {
+const FichasMain: React.FC<FichasMainProps> = ({}) => {
   const [action, setAction] = useState<Action>(Action.ADD);
   const [selectedFicha, setSelectedFicha] = useState<Ficha | null>(null);
   const [fichaToDelete, setFichaToDelete] = useState<Ficha | null>(null);
@@ -36,15 +38,17 @@ const FichasMain: React.FC<FichasMainProps> = ({ }) => {
   const { data, isLoading, createFicha, updateFicha, deleteFicha } =
     useFichas();
 
-
   //Listas
-  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(null);
+  const [locacionSelectedId, setSelectedLocacionId] = useState<number | null>(
+    null
+  );
   const [centroSelectedId, setSelectedCentroId] = useState<number | null>(null);
   const [sedeSelectedId, setSelectedSedeId] = useState<number | null>(null);
   const [areaSelectedId, setSelectedAreaId] = useState<number | null>(null);
 
   const { ciudades } = useLocacion();
-  const { data: centrosBylocacion } = useCentrosFormacionByLocacion(locacionSelectedId);
+  const { data: centrosBylocacion } =
+    useCentrosFormacionByLocacion(locacionSelectedId);
   const { data: sedesByCentros } = useSedesByCentros(centroSelectedId);
   const { data: areasBySedes } = useAreasBySedes(sedeSelectedId);
   const { data: ambientesByArea } = useAmbientesByArea(areaSelectedId);
@@ -66,16 +70,18 @@ const FichasMain: React.FC<FichasMainProps> = ({ }) => {
       <Card className="p-0 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-800">Fichas</h2>
-          <Button
-            onPress={() => {
-              setAction(Action.ADD);
-              openModal();
-            }}
-            color="primary"
-            className="w-40"
-          >
-            Agregar Nueva
-          </Button>
+          <Permission permiso={Permisos.FICHAS_CREAR}>
+            <Button
+              onPress={() => {
+                setAction(Action.ADD);
+                openModal();
+              }}
+              color="primary"
+              className="w-40"
+            >
+              Agregar Nuevo
+            </Button>
+          </Permission>
         </div>
 
         <Modal

@@ -6,6 +6,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   token: string | null;
+  permisos: string[];
   onLoginSuccess: (request: User, token: string) => void;
   onLogout: () => void;
 }

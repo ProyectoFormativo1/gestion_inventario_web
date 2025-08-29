@@ -1,3 +1,5 @@
+import { Permission } from '@/components/auth/Permission';
+import { Permisos } from '@/models/permisos';
 import { Bodega } from '@/types/bodega';
 import { ArrowLongRightIcon } from '@heroicons/react/16/solid';
 import { Alert } from '@heroui/alert';
@@ -40,14 +42,18 @@ const BodegaList: React.FC<BodegaListProps> = ({ onEdit, onDelete, items }) => {
                 <DropdownMenu aria-label="Actions" variant="flat">
                   {[
                     onEdit ? (
+                       <Permission permiso={Permisos.BODEGA_EDITAR}>
                       <DropdownItem key="edit" startContent={<Edit className={iconClasses} />} onPress={() => onEdit(item)}>
                         Editar
                       </DropdownItem>
+                      </Permission>
                     ) : null,
                     onDelete ? (
+                        <Permission permiso={Permisos.BODEGA_ELIMINAR}>
                       <DropdownItem key="delete" startContent={<Delete className={iconClasses} />} onPress={() => onDelete(item)}>
                         Eliminar
                       </DropdownItem>
+                      </Permission>
                     ) : null,
                   ].filter(Boolean)}
                 </DropdownMenu>
