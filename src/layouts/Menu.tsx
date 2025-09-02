@@ -110,6 +110,13 @@ export const adminMenu: MenuItem[] = [
     icon: <TrendingUpDown className="h-6 w-6" />,
     permiso: Permisos.MOVIMIENTOS_LISTA,
   },
+   {
+    code: "PERRITOS",
+    title: "Perritos",
+    path: routes.perritos,
+    icon: <TrendingUpDown className="h-6 w-6" />,
+    permiso: Permisos.PERRRITOS_LISTA,
+  },
   {
     code: "PERMISOS",
     title: "Permisos",
@@ -131,4 +138,5 @@ export const adminMenu: MenuItem[] = [
       },
     ],
   },
+ 
 ];

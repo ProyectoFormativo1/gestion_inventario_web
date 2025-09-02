@@ -86,4 +86,10 @@ export enum Permisos {
 
   // Estadistica
   ESTADISTICAS_REPORT_VER = "estadistica-report-ver",
+
+    // perrito
+  PERRRITOS_LISTA = "perrito-table-lista",
+  PERRRITOS_CREAR = "perrito-btn-crear",
+  PERRRITOS_ELIMINAR = "perrito-btn-eliminar",
+  PERRRITOS_EDITAR = "perrito-btn-editar",
 }

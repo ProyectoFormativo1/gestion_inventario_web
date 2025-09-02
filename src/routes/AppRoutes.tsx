@@ -24,8 +24,9 @@ import CargoPage from "@/pages/admin/CargoPage";
 import EstadisticasPage from "@/pages/admin/EstadisticasPage";
 import CategoriaPage from "@/pages/admin/CategoriaPage";
 import { Permisos } from "@/models/permisos";
-import UnAuthorized from "@/components/atomic/templates/Unauthorized";
+import UnAuthorized from "@/components/atomic/templates/UnAuthorized";
 import PermisosPage from "@/pages/admin/PermisosPage";
+import PerritosPage from "@/pages/admin/PerritosPage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -108,6 +109,16 @@ const AppRoutes = () => {
             <ProtectedRoute
               permiso={Permisos.SEDES_LISTA}
               component={SedesPage}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
+        <Route
+          path={routes.perritos}
+          element={
+            <ProtectedRoute
+              permiso={Permisos.PERRRITOS_LISTA}
+              component={PerritosPage}
               isAuthenticated={isAuthenticated}
             />
           }
