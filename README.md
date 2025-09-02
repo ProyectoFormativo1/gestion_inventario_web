@@ -1,74 +1,49 @@
-# Vite & HeroUI Template
+# 📦 Gestión de Inventario - Frontend
 
-This is a template for creating applications using Vite and HeroUI (v2).
+Aplicación frontend desarrollada con **Vite + HeroUI**, diseñada para la gestión de inventario.  
+Incluye integración con API REST y simulación de backend con `json-server`.  
 
-[Try it on CodeSandbox](https://githubbox.com/frontio-ai/vite-template)
+---
 
-## Technologies Used
+## 🛠️ Tecnologías Utilizadas
 
-- [Vite](https://vitejs.dev/guide/)
-- [HeroUI](https://heroui.com)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org)
-- [Framer Motion](https://www.framer.com/motion)
+- ⚡ [Vite](https://vitejs.dev/guide/) – Bundler rápido y ligero  
+- 🎨 [HeroUI](https://heroui.com) – Componentes UI accesibles y personalizables  
+- 🎯 [Tailwind CSS](https://tailwindcss.com) – Framework CSS utilitario  
+- 🔧 [Tailwind Variants](https://tailwind-variants.org) – Variantes para componentes  
+- 📝 [TypeScript](https://www.typescriptlang.org) – Tipado estático en JavaScript  
+- 🎬 [Framer Motion](https://www.framer.com/motion) – Animaciones fluidas  
+- 🖥️ [React Query](https://tanstack.com/query/latest) – Manejo de estado asíncrono  
 
-## How to Use
+---
 
-To clone the project, run the following command:
+## Instalación del Proyecto
+
+Clona el repositorio:
 
 ```bash
-git clone https://github.com/frontio-ai/vite-template.git
+git clone https://github.com/ProyectoFormativo1/gestion_inventario_web
 ```
-
-### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
+```bash
+cd gestion_inventario_web
+```
+## Instalación dependencias
 ```bash
 npm install
+
 ```
-
-### Run the development server
-
+## Ejecutar servidor de desarrollo
 ```bash
 npm run dev
+
+
 ```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
+## Comando de ayuda, nuevo proyecto
 ```bash
-public-hoist-pattern[]=*@heroui/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## License
-
-Licensed under the [MIT license](https://github.com/frontio-ai/vite-template/blob/main/LICENSE).
-
-
-# Crear Proyecto
 npm install -g heroui-cli
 heroui init gestion-inventario-web
-
-
-# Run Project
-```bash
 npm install
 npm run dev
-```
 
-# Icons
-https://heroicons.com/
-https://heroicons.com/solid
-install icons:
-```bash
-npm install @heroicons/react
-npm install lucide-react
-```
 
-# Correr Simulacion Backend
-json-server --watch db.json --port 3001
+```
